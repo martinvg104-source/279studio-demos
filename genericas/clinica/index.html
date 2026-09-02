@@ -3,114 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Centro Fisioterapia Ejemplo · Cita online</title>
-<meta name="description" content="Demo orientativa de agenda de citas, ficha de paciente y aviso automático de paciente en riesgo para un centro de fisioterapia. Ningún dato es real.">
+<title>Fisioterapia Ejemplo · Pedir cita</title>
+<meta name="description" content="Demo orientativa: marca dónde te molesta y elige un hueco con tu fisioterapeuta. Datos de ejemplo, no se envía nada.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..48,600;12..48,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<a href="#main" class="skip-link">Saltar al contenido</a>
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
 
-<header class="site-header">
-  <div class="wrap site-header-inner">
-    <a href="#main" class="brand" aria-label="Centro de Fisioterapia Ejemplo, inicio">
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <span class="brand">
       <!-- LOGO PLACEHOLDER — sustituir por el logotipo real del cliente -->
-      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M 41.72,19.09 A 32,32 0 1 1 22.29,34.0" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
-      <span class="brand-word">Fisioterapia <span>Ejemplo</span></span>
-    </a>
-    <span class="sys-tag">SIS · AGENDA DE CITAS</span>
+      <span class="brand-badge" aria-hidden="true"></span>
+      <span class="brand-name">Fisioterapia Ejemplo</span>
+    </span>
+    <span class="hours">Lun–Vie · 9–20 h</span>
   </div>
 </header>
 
-<main id="main">
-  <section class="section">
-    <div class="wrap">
-      <p class="tab-label">00 / Cita</p>
-      <h1 class="display">Pide cita con<br>tu fisioterapeuta</h1>
-      <p class="lede reveal">Elige día, hora y profesional. El sistema confirma al momento y envía un recordatorio automático para reducir las ausencias.</p>
-    </div>
-  </section>
+<main id="contenido" class="wrap">
+  <h1>Pide cita con tu fisioterapeuta</h1>
+  <p class="intro">Marca dónde te molesta y elige un hueco. La primera visita incluye valoración y primer tratamiento.</p>
 
-  <section class="section section-alt">
-    <div class="wrap grid-2">
-      <div class="panel reveal">
-        <div class="panel-head"><span>AGENDA · HOY</span><span class="panel-code">SEC.02</span></div>
-        <ul class="fieldlist">
-          <li><span>09:30 · Valoración inicial — Sala 1</span><span class="dot dot-on" title="Disponible"></span></li>
-          <li><span>11:00 · Sesión de seguimiento — Sala 2</span><span class="dot dot-on" title="Disponible"></span></li>
-          <li><span>12:00 · Rehabilitación — Sala 1</span><span class="stamp stamp-warn">COMPLETO</span></li>
-          <li><span>17:00 · Valoración inicial — Sala 2</span><span class="dot dot-on" title="Disponible"></span></li>
-        </ul>
-        <p class="panel-foot">Los huecos se bloquean en cuanto se confirma una reserva.</p>
+  <div class="cols">
+    <section class="panel" aria-labelledby="h-zona">
+      <h2 id="h-zona">¿Dónde te molesta?</h2>
+
+      <div class="side-toggle" role="group" aria-label="Vista del cuerpo">
+        <button type="button" data-side="frente" aria-pressed="true">Frente</button>
+        <button type="button" data-side="espalda" aria-pressed="false">Espalda</button>
       </div>
 
-      <form class="booking reveal" id="booking" novalidate>
-        <p class="tab-label">01 / Elige hueco</p>
-        <div class="slots" role="group" aria-label="Huecos disponibles">
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Hoy · 09:30 · Valoración inicial</span>
-            <span class="slot-s">Ana R. · Sala 1</span>
+      <div class="figure" data-side="frente">
+        <svg class="body" viewBox="0 0 140 320" aria-hidden="true">
+          <path class="body-fill" d="M70 8c-10 0-18 8-18 19 0 8 4 14 10 17-8 2-18 6-24 12-5 6-6 16-6 28 0 8 1 15 3 20l-4 34c-1 8 9 10 11 2l4-28c1 9 2 19 2 26 0 10-3 28-5 44-2 14-4 28-4 38 0 9 13 9 14 0l6-46 4 0 6 46c1 9 14 9 14 0 0-10-2-24-4-38-2-16-5-34-5-44 0-7 1-17 2-26l4 28c2 8 12 6 11-2l-4-34c2-5 3-12 3-20 0-12-1-22-6-28-6-6-16-10-24-12 6-3 10-9 10-17 0-11-8-19-18-19z"/>
+          <g class="front-only">
+            <circle cx="63" cy="24" r="1.6"/><circle cx="77" cy="24" r="1.6"/>
+          </g>
+          <g class="back-only" aria-hidden="true">
+            <line x1="70" y1="52" x2="70" y2="150"/>
+            <line x1="64" y1="66" x2="76" y2="66"/><line x1="64" y1="82" x2="76" y2="82"/>
+            <line x1="64" y1="100" x2="76" y2="100"/><line x1="64" y1="120" x2="76" y2="120"/>
+          </g>
+          <g class="zone-blobs">
+            <rect class="blob" data-zone="cuello" x="52" y="44" width="36" height="16" rx="8"/>
+            <rect class="blob" data-zone="hombro" x="34" y="60" width="72" height="18" rx="9"/>
+            <rect class="blob" data-zone="media" x="46" y="92" width="48" height="26" rx="12"/>
+            <rect class="blob" data-zone="baja" x="44" y="150" width="52" height="26" rx="12"/>
+            <rect class="blob" data-zone="rodilla" x="40" y="204" width="60" height="20" rx="10"/>
+            <rect class="blob" data-zone="tobillo" x="42" y="286" width="56" height="18" rx="9"/>
+          </g>
+        </svg>
+
+        <div class="zones">
+          <button type="button" class="zone" data-zone="cuello"
+            data-label-frente="cuello" data-label-espalda="cuello">
+            <span class="zt">Cuello</span>
           </button>
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Hoy · 11:00 · Seguimiento</span>
-            <span class="slot-s">Diego S. · Sala 2</span>
+          <button type="button" class="zone" data-zone="hombro"
+            data-label-frente="hombro" data-label-espalda="hombro">
+            <span class="zt">Hombro</span>
           </button>
-          <button type="button" class="slot" data-full="true" aria-pressed="false">
-            <span class="slot-t">Hoy · 12:00 · Rehabilitación</span>
-            <span class="slot-s">Completo · siguiente: mañana 10:00</span>
+          <button type="button" class="zone" data-zone="media"
+            data-label-frente="codo / antebrazo" data-label-espalda="zona dorsal">
+            <span class="zt zt-frente">Codo / antebrazo</span>
+            <span class="zt zt-espalda">Zona dorsal</span>
           </button>
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Hoy · 17:00 · Valoración inicial</span>
-            <span class="slot-s">Ana R. · Sala 2</span>
+          <button type="button" class="zone" data-zone="baja"
+            data-label-frente="cadera" data-label-espalda="zona lumbar">
+            <span class="zt zt-frente">Cadera</span>
+            <span class="zt zt-espalda">Zona lumbar</span>
+          </button>
+          <button type="button" class="zone" data-zone="rodilla"
+            data-label-frente="rodilla" data-label-espalda="glúteo / isquios">
+            <span class="zt zt-frente">Rodilla</span>
+            <span class="zt zt-espalda">Glúteo / isquios</span>
+          </button>
+          <button type="button" class="zone" data-zone="tobillo"
+            data-label-frente="tobillo / pie" data-label-espalda="gemelo">
+            <span class="zt zt-frente">Tobillo / pie</span>
+            <span class="zt zt-espalda">Gemelo</span>
           </button>
         </div>
-
-        <p class="tab-label" style="margin-top:1.6rem">02 / Tus datos</p>
-        <div class="field">
-          <label for="nombre">Nombre y apellidos</label>
-          <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Nombre del paciente">
-        </div>
-        <div class="field">
-          <label for="tel">Teléfono</label>
-          <input id="tel" name="tel" type="tel" autocomplete="tel" required placeholder="Teléfono de contacto">
-        </div>
-
-        <button type="submit" class="btn-stamp" id="confirmBtn" data-done="CITA AGENDADA" disabled>Agendar cita</button>
-        <p class="demo-note">Demo orientativa. No se envía ni se guarda ningún dato.</p>
-
-        <div class="confirm" id="confirm" hidden>
-          <span class="stamp">AGENDADA</span>
-          <p class="confirm-t" id="confirmMsg">Cita agendada</p>
-          <p class="confirm-b">El paciente recibiría un SMS y un recordatorio automático 24&nbsp;h antes. En esta demo no se envía nada.</p>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <p class="tab-label reveal">03 / Panel interno</p>
-      <div class="panel reveal" style="max-width:720px">
-        <div class="panel-head"><span>FICHAS · SEGUIMIENTO</span><span class="panel-code">P.07</span></div>
-        <ul class="fieldlist">
-          <li><span>Paciente A. — alta hace 4 meses, sin cita nueva</span><span class="stamp">REVISAR</span></li>
-          <li><span>Paciente B. — sesiones al día</span><span class="dot dot-on" title="Al día"></span></li>
-          <li><span>Paciente C. — bono de 10 sesiones, quedan 2</span><span class="stamp">AVISAR</span></li>
-        </ul>
-        <div class="alert">Aviso automático: el paciente A. lleva 4 meses sin volver. El sistema propone un mensaje de seguimiento antes de perder el contacto.</div>
       </div>
+
+      <p class="zona-out" id="zona-out" aria-live="polite">Zona: sin marcar <span class="opt">(opcional)</span></p>
+    </section>
+
+    <section class="panel" aria-labelledby="h-huecos">
+      <h2 id="h-huecos">Huecos esta semana</h2>
+      <ul class="slots" id="slots">
+        <li>
+          <button type="button" class="slot" aria-pressed="false" data-full="false"
+            aria-label="Miércoles 12, 10:00, con Ana, valoración y primer tratamiento. Pedir cita.">
+            <span class="s-when">Mié 12 · 10:00</span>
+            <span class="s-who">Ana · valoración + tratamiento</span>
+            <svg class="s-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="slot full" aria-pressed="false" data-full="true"
+            aria-label="Miércoles 12, 12:30. Hueco completo: al pedir cita te avisamos del siguiente hueco libre.">
+            <span class="s-when">Mié 12 · 12:30</span>
+            <span class="s-who">Completo</span>
+            <svg class="s-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="slot" aria-pressed="false" data-full="false"
+            aria-label="Jueves 13, 17:00, con Dídac, sesión de seguimiento. Pedir cita.">
+            <span class="s-when">Jue 13 · 17:00</span>
+            <span class="s-who">Dídac · seguimiento</span>
+            <svg class="s-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="slot" aria-pressed="false" data-full="false"
+            aria-label="Viernes 14, 09:30, con Ana, valoración y primer tratamiento. Pedir cita.">
+            <span class="s-when">Vie 14 · 09:30</span>
+            <span class="s-who">Ana · valoración + tratamiento</span>
+            <svg class="s-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="slot" aria-pressed="false" data-full="false"
+            aria-label="Viernes 14, 18:30, con Dídac, sesión de seguimiento. Pedir cita.">
+            <span class="s-when">Vie 14 · 18:30</span>
+            <span class="s-who">Dídac · seguimiento</span>
+            <svg class="s-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <form class="datos" id="datos" novalidate aria-labelledby="h-datos">
+    <h2 id="h-datos">Tus datos</h2>
+    <div class="row2">
+      <div class="field">
+        <label for="nombre">Nombre y apellidos</label>
+        <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre">
+      </div>
+      <div class="field">
+        <label for="tel">Teléfono</label>
+        <input id="tel" name="tel" type="tel" autocomplete="tel" required placeholder="Para confirmarte la cita">
+      </div>
+    </div>
+    <fieldset class="first-visit">
+      <legend>¿Primera vez en la clínica?</legend>
+      <label><input type="radio" name="primera" value="si"> Sí</label>
+      <label><input type="radio" name="primera" value="no"> No</label>
+    </fieldset>
+    <button type="submit" class="btn" id="ask" data-done="Cita pedida" disabled>Pedir cita</button>
+    <p class="disclaimer">Demo orientativa. No se envía ni se guarda ningún dato.</p>
+
+    <div class="confirm" id="confirm" hidden>
+      <p class="confirm-title" id="confirm-title">Cita pedida</p>
+      <p id="confirm-body">Te llamaríamos para confirmar el día y la hora. En esta demo no se envía nada.</p>
+    </div>
+  </form>
+
+  <section class="recovery" aria-labelledby="h-rec">
+    <h2 id="h-rec">Cómo va una recuperación <span class="tag-eg">ejemplo</span></h2>
+    <p class="rec-lead">Lo que suele verse en una lumbalgia mecánica a lo largo de seis sesiones: el dolor baja y la movilidad se abre.</p>
+
+    <div class="rec-grid">
+      <ol class="sessions" aria-label="Dolor por sesión, escala 0 a 10">
+        <li><span class="sn">Sesión 1</span><span class="pain p-hi"><span class="dot"></span>dolor 6</span></li>
+        <li><span class="sn">Sesión 2</span><span class="pain p-hi"><span class="dot"></span>dolor 5</span></li>
+        <li><span class="sn">Sesión 3</span><span class="pain p-mid"><span class="dot"></span>dolor 3</span></li>
+        <li><span class="sn">Sesión 4</span><span class="pain p-mid"><span class="dot"></span>dolor 3</span></li>
+        <li><span class="sn">Sesión 5</span><span class="pain p-lo"><span class="dot"></span>dolor 2</span></li>
+        <li><span class="sn">Sesión 6</span><span class="pain p-lo"><span class="dot"></span>dolor 1</span></li>
+      </ol>
+
+      <figure class="rom">
+        <svg viewBox="0 0 160 120" role="img" aria-label="Movilidad de flexión: de 42 grados en la sesión 1 a 68 grados en la sesión 6.">
+          <line class="rom-base" x1="20" y1="100" x2="150" y2="100"/>
+          <line class="rom-arm" x1="20" y1="100" x2="20" y2="30"/>
+          <path class="rom-start" d="M20 100 L118 100" transform="rotate(-42 20 100)" pathLength="1"/>
+          <path class="rom-now" d="M20 100 L118 100" transform="rotate(-68 20 100)" pathLength="1"/>
+        </svg>
+        <figcaption>Flexión: <span class="rom-a">42°</span> → <span class="rom-b">68°</span></figcaption>
+      </figure>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap site-footer-inner">
-    <span class="demo-flag">DEMO ORIENTATIVA · datos de ejemplo</span>
-    <span class="by">Sistema por <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a></span>
-  </div>
+<footer class="wrap foot">
+  <span>Demo · datos de ejemplo · no se envía nada</span>
+  <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a>
 </footer>
 
 <script src="app.js"></script>

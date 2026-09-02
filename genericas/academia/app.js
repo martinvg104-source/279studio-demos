@@ -1,71 +1,70 @@
-/* Academia Ejemplo — demo autocontenida. Vanilla JS, sin dependencias. */
+/* Academia Ejemplo — demo autocontenida. Vanilla JS, sin dependencias.
+   Lógica de negocio igual que antes: elegir clase -> habilita botón -> enviar -> confirmación.
+   Clase completa -> mensaje de lista de espera. Solo cambia el DOM (casillas de horario). */
 (function () {
   "use strict";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---- scroll reveal: cascada por grupo de hermanos (70ms, tope 6) ---- */
-  function initReveal() {
-    var items = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
-    if (!items.length) return;
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("is-in"); });
-      return;
-    }
-    var groups = new Map();
-    items.forEach(function (el) {
-      var parent = el.parentNode;
-      if (!groups.has(parent)) groups.set(parent, 0);
-      var i = groups.get(parent);
-      el.style.setProperty("--reveal-delay", Math.min(i, 6) * 70 + "ms");
-      groups.set(parent, i + 1);
-    });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-in");
-          io.unobserve(e.target);
-        }
+  /* ---- horario por día (móvil) ---- */
+  function initDayTabs() {
+    var table = document.querySelector(".timetable");
+    var tabs = Array.prototype.slice.call(document.querySelectorAll(".daybar button"));
+    if (!table || !tabs.length) return;
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t === tab)); });
+        table.setAttribute("data-day", tab.getAttribute("data-day"));
       });
-    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
-    items.forEach(function (el) { io.observe(el); });
+    });
   }
 
-  /* ---- reserva ---- */
+  /* ---- reserva de clase ---- */
   function initBooking() {
-    var form = document.getElementById("booking");
+    var form = document.getElementById("signup");
     if (!form) return;
-    var slots = Array.prototype.slice.call(form.querySelectorAll(".slot"));
-    var btn = document.getElementById("confirmBtn");
+    var classes = Array.prototype.slice.call(document.querySelectorAll(".class-btn"));
+    var book = document.getElementById("book");
+    var selectedLine = document.getElementById("selected");
     var confirm = document.getElementById("confirm");
-    var confirmMsg = document.getElementById("confirmMsg");
+    var confirmTitle = document.getElementById("confirm-title");
+    var confirmBody = document.getElementById("confirm-body");
     var selected = null;
 
-    function selectSlot(slot) {
-      slots.forEach(function (s) { s.setAttribute("aria-pressed", String(s === slot)); });
-      selected = slot;
-      btn.disabled = false;
+    function pick(btn) {
+      classes.forEach(function (c) { c.setAttribute("aria-pressed", String(c === btn)); });
+      selected = btn;
+      book.disabled = false;
+      selectedLine.classList.add("has-pick");
+      selectedLine.textContent = "Elegido: " + btn.getAttribute("data-label");
     }
 
-    slots.forEach(function (slot) {
-      slot.addEventListener("click", function () { selectSlot(slot); });
+    classes.forEach(function (btn) {
+      btn.addEventListener("click", function () { pick(btn); });
     });
 
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
       if (!selected) return;
       if (!form.checkValidity()) { form.reportValidity(); return; }
+
       var full = selected.getAttribute("data-full") === "true";
-      confirmMsg.textContent = full ? "En lista de espera" : "Plaza reservada";
-      confirm.querySelector(".stamp").textContent = full ? "EN ESPERA" : "CONFIRMADA";
+      if (full) {
+        confirmTitle.textContent = "Estás en la lista de espera";
+        confirmBody.textContent = "Esa clase está completa. Te avisaríamos por email en cuanto se libere una plaza. En esta demo no se envía nada.";
+        book.textContent = "En lista de espera";
+      } else {
+        confirmTitle.textContent = "Plaza guardada";
+        confirmBody.textContent = "Te escribiríamos por email para confirmar el grupo y el material. En esta demo no se envía nada.";
+        book.textContent = book.getAttribute("data-done") || "Hecho";
+      }
+      book.setAttribute("data-state", "done");
+      book.disabled = true;
       confirm.hidden = false;
-      btn.textContent = btn.getAttribute("data-done") || "Hecho";
-      btn.setAttribute("data-state", "done");
-      btn.disabled = true;
       confirm.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
     });
   }
 
-  initReveal();
+  initDayTabs();
   initBooking();
 })();

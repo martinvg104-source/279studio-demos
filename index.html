@@ -4,179 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demos</title>
-<meta name="description" content="Galería de demos de sistemas de reserva y operaciones. Ejemplos orientativos, ningún dato es real.">
+<meta name="description" content="Tres demos para probar. Datos de ejemplo; nada de lo que escribas se guarda.">
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ground: #0b0a08;
-    --raised: #17140f;
-    --paper: #f3efe6;
-    --paper-dim: #ada496;
-    --paper-faint: #8c8374;
-    --accent: #ff7a1f;
-    --line: rgba(243, 239, 230, 0.13);
-    --line-strong: rgba(243, 239, 230, 0.26);
-    --f-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
-    --f-body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --paper: #faf9f6;
+    --ink: #23211d;
+    --ink-soft: #57544d;
+    --faint: #8a867d;
+    --line: rgba(35, 33, 29, 0.14);
+    --focus: #1b5e5a;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: var(--ground);
-    color: var(--paper);
-    font-family: var(--f-body);
-    font-size: 17px;
-    line-height: 1.55;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 16px;
+    line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    -webkit-font-smoothing: antialiased;
   }
-  ::selection { background: var(--accent); color: #14110b; }
   a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .wrap { width: 100%; max-width: 900px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 48px); }
-  main { flex: 1; padding-block: clamp(56px, 12vw, 120px); }
+  ::selection { background: #d9e6e4; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
-  .kicker {
-    font-family: var(--f-mono);
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-  .kicker::before { content: "\2022  "; }
+  .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding-inline: clamp(20px, 6vw, 40px); }
+  main { flex: 1; padding-block: clamp(52px, 12vw, 104px); }
+
   h1 {
-    font-family: var(--f-display);
-    font-weight: 800;
-    font-size: clamp(46px, 10vw, 88px);
-    line-height: 0.96;
-    letter-spacing: -0.015em;
-    text-transform: uppercase;
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
-  .intro { margin-top: 16px; max-width: 56ch; color: var(--paper-dim); }
+  .lede {
+    margin-top: 12px;
+    max-width: 46ch;
+    color: var(--ink-soft);
+  }
 
-  .list {
-    margin-top: clamp(32px, 6vw, 56px);
-    border-top: 1px solid var(--line-strong);
+  .demos {
+    margin-top: clamp(32px, 7vw, 56px);
+    border-top: 1px solid var(--line);
   }
-  .item {
-    display: grid;
-    grid-template-columns: 4.5rem 1fr auto;
-    gap: clamp(12px, 3vw, 28px);
-    align-items: center;
-    padding: clamp(18px, 3.5vw, 28px) 0;
+  .demo {
+    display: block;
+    padding: clamp(22px, 5vw, 30px) 0;
     border-bottom: 1px solid var(--line);
     text-decoration: none;
-    transition: background 0.15s ease;
   }
-  .item:hover, .item:focus-visible { background: var(--raised); }
-  .item .num {
-    font-family: var(--f-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    align-self: start;
-    padding-top: 4px;
+  .demo-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .item .sector {
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--paper-faint);
+  .demo-name { font-size: 1.2rem; font-weight: 600; }
+  .demo-sector { font-size: 0.9rem; color: var(--faint); }
+  .demo-desc { display: block; margin-top: 8px; color: var(--ink-soft); max-width: 58ch; }
+  .demo-open {
+    display: block;
+    margin-top: 12px;
+    font-weight: 500;
+    color: var(--focus);
   }
-  .item .name {
-    font-family: var(--f-display);
-    font-weight: 700;
-    font-size: clamp(22px, 4vw, 30px);
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin-top: 2px;
-  }
-  .item .desc { font-size: 14px; color: var(--paper-dim); margin-top: 4px; }
-  .item .go {
-    font-family: var(--f-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--paper-dim);
-    white-space: nowrap;
-  }
-  .item:hover .go, .item:focus-visible .go { color: var(--accent); }
+  .demo:hover .demo-name { text-decoration: underline; text-underline-offset: 3px; }
+  .demo:hover .demo-open,
+  .demo:focus-visible .demo-open { text-decoration: underline; text-underline-offset: 3px; }
 
-  .note {
+  .disclaimer {
     margin-top: 28px;
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: var(--paper-faint);
+    font-size: 0.88rem;
+    color: var(--faint);
   }
 
   footer {
     border-top: 1px solid var(--line);
-    padding-block: 20px;
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--paper-faint);
+    padding-block: 18px;
+    font-size: 0.85rem;
+    color: var(--faint);
   }
   footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-  footer a { color: var(--paper-dim); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
+  footer a { text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 
-  @media (max-width: 560px) {
-    .item { grid-template-columns: 1fr; }
-    .item .num { padding-top: 0; }
-    .item .go { justify-self: start; }
-  }
   @media (prefers-reduced-motion: reduce) {
-    * { transition-duration: 0.01ms !important; }
+    * { transition: none !important; }
   }
 </style>
 </head>
 <body>
 <main>
   <div class="wrap">
-    <p class="kicker">Demos</p>
     <h1>Demos</h1>
-    <p class="intro">Ejemplos de sistemas de reserva y operaciones, listos para probar. Todos los datos son de ejemplo; nada de lo que escribas se guarda.</p>
+    <p class="lede">Tres ejemplos para probar tú mismo. Todos los datos son de ejemplo y nada de lo que escribas se guarda.</p>
 
-    <div class="list">
-      <a class="item" href="genericas/academia/">
-        <span class="num">DEMO.01</span>
-        <span>
-          <span class="sector">Academia</span>
-          <span class="name">Academia Ejemplo</span>
-          <span class="desc">Reserva de clases y lista de espera automática.</span>
+    <div class="demos">
+      <a class="demo" href="genericas/academia/">
+        <span class="demo-head">
+          <span class="demo-name">Academia Ejemplo</span>
+          <span class="demo-sector">Academia de idiomas y refuerzo</span>
         </span>
-        <span class="go">Abrir &rarr;</span>
+        <span class="demo-desc">Un horario semanal de clases sobre papel de cuadrícula: eliges tu grupo tocando una casilla y, si está completa, entras en la lista de espera.</span>
+        <span class="demo-open">Abrir demo &rarr;</span>
       </a>
-      <a class="item" href="genericas/clinica/">
-        <span class="num">DEMO.02</span>
-        <span>
-          <span class="sector">Fisioterapia</span>
-          <span class="name">Fisioterapia Ejemplo</span>
-          <span class="desc">Agenda de citas, ficha de paciente y aviso de seguimiento.</span>
+
+      <a class="demo" href="genericas/clinica/">
+        <span class="demo-head">
+          <span class="demo-name">Fisioterapia Ejemplo</span>
+          <span class="demo-sector">Centro de fisioterapia</span>
         </span>
-        <span class="go">Abrir &rarr;</span>
+        <span class="demo-desc">Marcas en una silueta dónde te molesta, eliges hueco con tu fisioterapeuta y ves cómo iría la recuperación sesión a sesión.</span>
+        <span class="demo-open">Abrir demo &rarr;</span>
       </a>
-      <a class="item" href="genericas/taller/">
-        <span class="num">DEMO.03</span>
-        <span>
-          <span class="sector">Taller</span>
-          <span class="name">Taller Ejemplo</span>
-          <span class="desc">Cita de taller, estimación orientativa y aviso de coche listo.</span>
+
+      <a class="demo" href="genericas/taller/">
+        <span class="demo-head">
+          <span class="demo-name">Taller Ejemplo</span>
+          <span class="demo-sector">Taller mecánico</span>
         </span>
-        <span class="go">Abrir &rarr;</span>
+        <span class="demo-desc">Una orden de trabajo que se rellena sola: marcas lo que necesita el coche, la estimación se suma por piezas y mano de obra, y pides cita de entrada.</span>
+        <span class="demo-open">Abrir demo &rarr;</span>
       </a>
     </div>
 
-    <p class="note">Demos orientativas · datos de ejemplo · sin recogida de datos</p>
+    <p class="disclaimer">Demos orientativas. Los negocios, precios y datos son inventados.</p>
   </div>
 </main>
 

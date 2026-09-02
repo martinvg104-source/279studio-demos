@@ -4,98 +4,203 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Academia Ejemplo · Reserva de clases</title>
-<meta name="description" content="Demo orientativa de sistema de reserva de clases y lista de espera automática para una academia. Ningún dato es real.">
+<meta name="description" content="Demo orientativa: elige tu grupo en el horario de la academia y reserva plaza. Datos de ejemplo, no se envía nada.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<a href="#main" class="skip-link">Saltar al contenido</a>
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
 
-<header class="site-header">
-  <div class="wrap site-header-inner">
-    <a href="#main" class="brand" aria-label="Academia Ejemplo, inicio">
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <span class="brand">
       <!-- LOGO PLACEHOLDER — sustituir por el logotipo real del cliente -->
-      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M 41.72,19.09 A 32,32 0 1 1 22.29,34.0" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
-      <span class="brand-word">Academia <span>Ejemplo</span></span>
-    </a>
-    <span class="sys-tag">SIS · RESERVA DE CLASES</span>
+      <span class="brand-badge" aria-hidden="true"></span>
+      <span class="brand-name">Academia Ejemplo</span>
+    </span>
+    <span class="term">Curso actual</span>
   </div>
 </header>
 
-<main id="main">
-  <section class="section">
-    <div class="wrap">
-      <p class="tab-label">00 / Reserva</p>
-      <h1 class="display">Reserva tu plaza<br>en la próxima clase</h1>
-      <p class="lede reveal">Elige un grupo con plazas libres. Si está completo, entras automáticamente en la lista de espera y te avisamos en cuanto se libere un sitio.</p>
+<main id="contenido" class="wrap">
+  <h1>Elige tu grupo en el horario</h1>
+  <p class="intro">Toca una clase con plazas libres. Si está completa, te apuntamos a la lista de espera y te avisamos en cuanto se libere un sitio.</p>
+
+  <div class="daybar" role="tablist" aria-label="Día de la semana">
+    <button type="button" role="tab" aria-selected="true" data-day="lun">Lunes</button>
+    <button type="button" role="tab" aria-selected="false" data-day="mar">Martes</button>
+    <button type="button" role="tab" aria-selected="false" data-day="mie">Miércoles</button>
+    <button type="button" role="tab" aria-selected="false" data-day="jue">Jueves</button>
+    <button type="button" role="tab" aria-selected="false" data-day="vie">Viernes</button>
+  </div>
+
+  <table class="timetable sheet" data-day="lun">
+    <caption class="vh">Horario semanal de clases. Elige una clase para reservar plaza; las clases completas te apuntan a la lista de espera.</caption>
+    <thead>
+      <tr>
+        <td class="corner" aria-hidden="true"></td>
+        <th scope="col" class="col c-lun">Lun</th>
+        <th scope="col" class="col c-mar">Mar</th>
+        <th scope="col" class="col c-mie">Mié</th>
+        <th scope="col" class="col c-jue">Jue</th>
+        <th scope="col" class="col c-vie">Vie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">16:00</th>
+        <td class="c-lun"></td>
+        <td class="c-mar">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Repaso primaria, martes 16:00, 5 plazas libres. Reservar plaza."
+            data-label="Repaso primaria · martes 16:00 · 5 plazas libres">
+            <span class="cb-name">Repaso primaria</span><span class="cb-meta">5 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mie"></td>
+        <td class="c-jue">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Repaso primaria, jueves 16:00, 5 plazas libres. Reservar plaza."
+            data-label="Repaso primaria · jueves 16:00 · 5 plazas libres">
+            <span class="cb-name">Repaso primaria</span><span class="cb-meta">5 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-vie"></td>
+      </tr>
+      <tr>
+        <th scope="row">17:00</th>
+        <td class="c-lun">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Inglés B1, lunes 17:00, 3 plazas libres. Reservar plaza."
+            data-label="Inglés B1 · lunes 17:00 · 3 plazas libres">
+            <span class="cb-name">Inglés B1</span><span class="cb-meta">3 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mar">
+          <button type="button" class="class-btn full" aria-pressed="false" data-full="true"
+            aria-label="Repaso ESO, martes 17:00. Clase completa: al reservar te apuntamos a la lista de espera."
+            data-label="Repaso ESO · martes 17:00 · completa, lista de espera">
+            <span class="cb-name">Repaso ESO</span><span class="cb-meta">Completa</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mie">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Inglés B1, miércoles 17:00, 3 plazas libres. Reservar plaza."
+            data-label="Inglés B1 · miércoles 17:00 · 3 plazas libres">
+            <span class="cb-name">Inglés B1</span><span class="cb-meta">3 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-jue"></td>
+        <td class="c-vie">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Matemáticas ESO, viernes 17:00, 6 plazas libres. Reservar plaza."
+            data-label="Matemáticas ESO · viernes 17:00 · 6 plazas libres">
+            <span class="cb-name">Matemáticas ESO</span><span class="cb-meta">6 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">18:00</th>
+        <td class="c-lun">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Inglés B2, lunes 18:00, 4 plazas libres. Reservar plaza."
+            data-label="Inglés B2 · lunes 18:00 · 4 plazas libres">
+            <span class="cb-name">Inglés B2</span><span class="cb-meta">4 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mar">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Italiano A1, martes 18:00, 2 plazas libres. Reservar plaza."
+            data-label="Italiano A1 · martes 18:00 · 2 plazas libres">
+            <span class="cb-name">Italiano A1</span><span class="cb-meta">2 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mie">
+          <button type="button" class="class-btn full" aria-pressed="false" data-full="true"
+            aria-label="Inglés B2, miércoles 18:00. Clase completa: al reservar te apuntamos a la lista de espera."
+            data-label="Inglés B2 · miércoles 18:00 · completa, lista de espera">
+            <span class="cb-name">Inglés B2</span><span class="cb-meta">Completa</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-jue">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Italiano A1, jueves 18:00, 2 plazas libres. Reservar plaza."
+            data-label="Italiano A1 · jueves 18:00 · 2 plazas libres">
+            <span class="cb-name">Italiano A1</span><span class="cb-meta">2 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-vie">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Matemáticas Bachillerato, viernes 18:00, 4 plazas libres. Reservar plaza."
+            data-label="Matemáticas Bachillerato · viernes 18:00 · 4 plazas libres">
+            <span class="cb-name">Matemáticas Bach.</span><span class="cb-meta">4 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">19:00</th>
+        <td class="c-lun"></td>
+        <td class="c-mar">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Italiano A2, martes 19:00, 4 plazas libres. Reservar plaza."
+            data-label="Italiano A2 · martes 19:00 · 4 plazas libres">
+            <span class="cb-name">Italiano A2</span><span class="cb-meta">4 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-mie"></td>
+        <td class="c-jue">
+          <button type="button" class="class-btn" aria-pressed="false" data-full="false"
+            aria-label="Italiano A2, jueves 19:00, 4 plazas libres. Reservar plaza."
+            data-label="Italiano A2 · jueves 19:00 · 4 plazas libres">
+            <span class="cb-name">Italiano A2</span><span class="cb-meta">4 plazas</span>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+          </button>
+        </td>
+        <td class="c-vie"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="selected" id="selected" aria-live="polite">Aún no has elegido clase.</p>
+
+  <form class="signup sheet" id="signup" novalidate>
+    <h2>Apúntate</h2>
+    <div class="field">
+      <label for="nombre">Nombre y apellidos</label>
+      <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Nombre del alumno o del tutor">
     </div>
-  </section>
-
-  <section class="section section-alt">
-    <div class="wrap grid-2">
-      <div class="panel reveal">
-        <div class="panel-head"><span>ESTADO · GRUPOS ABIERTOS</span><span class="panel-code">MOD.01</span></div>
-        <ul class="fieldlist">
-          <li><span>Inglés B2 · Martes 18:00</span><span class="dot dot-on" title="Plazas libres"></span></li>
-          <li><span>Apoyo escolar · Miércoles 17:00</span><span class="stamp stamp-warn">COMPLETO</span></li>
-          <li><span>Italiano A1 · Jueves 19:00</span><span class="dot dot-on" title="Plazas libres"></span></li>
-          <li><span>Refuerzo verano · Viernes 10:00</span><span class="dot dot-on" title="Plazas libres"></span></li>
-        </ul>
-        <p class="panel-foot">Actualización automática cada vez que alguien reserva o cancela.</p>
-      </div>
-
-      <form class="booking reveal" id="booking" novalidate>
-        <p class="tab-label">01 / Elige grupo</p>
-        <div class="slots" role="group" aria-label="Grupos disponibles">
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Inglés B2 · Martes 18:00</span>
-            <span class="slot-s">4 plazas libres</span>
-          </button>
-          <button type="button" class="slot" data-full="true" aria-pressed="false">
-            <span class="slot-t">Apoyo escolar · Miércoles 17:00</span>
-            <span class="slot-s">Completo · lista de espera</span>
-          </button>
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Italiano A1 · Jueves 19:00</span>
-            <span class="slot-s">2 plazas libres</span>
-          </button>
-          <button type="button" class="slot" data-full="false" aria-pressed="false">
-            <span class="slot-t">Refuerzo verano · Viernes 10:00</span>
-            <span class="slot-s">6 plazas libres</span>
-          </button>
-        </div>
-
-        <p class="tab-label" style="margin-top:1.6rem">02 / Tus datos</p>
-        <div class="field">
-          <label for="nombre">Nombre y apellidos</label>
-          <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Nombre del alumno o tutor">
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
-        </div>
-
-        <button type="submit" class="btn-stamp" id="confirmBtn" data-done="RESERVA HECHA" disabled>Reservar plaza</button>
-        <p class="demo-note">Demo orientativa. No se envía ni se guarda ningún dato.</p>
-
-        <div class="confirm" id="confirm" hidden>
-          <span class="stamp">CONFIRMADA</span>
-          <p class="confirm-t" id="confirmMsg">Plaza reservada</p>
-          <p class="confirm-b">Recibirías un recordatorio automático por email y WhatsApp 24&nbsp;h antes de la clase. En esta demo no se envía nada.</p>
-        </div>
-      </form>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
     </div>
-  </section>
+    <button type="submit" class="btn-book" id="book" data-done="Plaza guardada" disabled>Reservar plaza</button>
+    <p class="disclaimer">Demo orientativa. No se envía ni se guarda ningún dato.</p>
+
+    <div class="confirm" id="confirm" hidden>
+      <p class="confirm-title" id="confirm-title">Plaza guardada</p>
+      <p id="confirm-body">Te escribiríamos por email para confirmar el grupo y el material. En esta demo no se envía nada.</p>
+    </div>
+  </form>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap site-footer-inner">
-    <span class="demo-flag">DEMO ORIENTATIVA · datos de ejemplo</span>
-    <span class="by">Sistema por <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a></span>
-  </div>
+<footer class="wrap foot">
+  <span>Demo · datos de ejemplo · no se envía nada</span>
+  <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a>
 </footer>
 
 <script src="app.js"></script>
