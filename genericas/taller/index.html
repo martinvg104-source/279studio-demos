@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller Ejemplo · Cita online</title>
+<meta name="description" content="Demo orientativa de reserva de cita de taller con presupuesto estimado y aviso automático de coche listo. Ningún dato es real.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="#main" class="brand" aria-label="Taller Ejemplo, inicio">
+      <!-- LOGO PLACEHOLDER — sustituir por el logotipo real del cliente -->
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M 41.72,19.09 A 32,32 0 1 1 22.29,34.0" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
+      <span class="brand-word">Taller <span>Ejemplo</span></span>
+    </a>
+    <span class="sys-tag">SIS · CITAS DE TALLER</span>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section">
+    <div class="wrap">
+      <p class="tab-label">00 / Cita</p>
+      <h1 class="display">Reserva tu cita<br>de taller</h1>
+      <p class="lede reveal">Elige el servicio y un hueco. Ves una estimación orientativa al momento y recibes un aviso por WhatsApp cuando el coche está listo.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap grid-2">
+      <div class="panel reveal">
+        <div class="panel-head"><span>ÓRDENES · ESTADO</span><span class="panel-code">PR.03</span></div>
+        <ul class="fieldlist">
+          <li><span>1234&nbsp;ABC · Revisión general</span><span class="stamp">EN CURSO</span></li>
+          <li><span>5678&nbsp;DEF · Cambio de neumáticos</span><span class="stamp stamp-ok">LISTO</span></li>
+          <li><span>9012&nbsp;GHI · Diagnóstico electrónico</span><span class="stamp stamp-warn">PRESUPUESTO</span></li>
+          <li><span>3456&nbsp;JKL · Pre-ITV</span><span class="dot dot-on" title="En cola"></span></li>
+        </ul>
+        <p class="panel-foot">El cliente recibe un WhatsApp automático en cada cambio de estado.</p>
+      </div>
+
+      <form class="booking reveal" id="booking" novalidate>
+        <p class="tab-label">01 / Elige servicio y hueco</p>
+        <div class="slots" role="group" aria-label="Servicios disponibles">
+          <button type="button" class="slot" data-full="false" aria-pressed="false" data-est="Estimación orientativa: 90–130 € · aprox. 1 h">
+            <span class="slot-t">Revisión general · mañana 09:00</span>
+            <span class="slot-s">Aceite, filtros y 30 puntos</span>
+          </button>
+          <button type="button" class="slot" data-full="false" aria-pressed="false" data-est="Estimación orientativa: 60–90 € + neumáticos · aprox. 45 min">
+            <span class="slot-t">Cambio de neumáticos · mañana 11:30</span>
+            <span class="slot-s">Montaje, equilibrado y válvulas</span>
+          </button>
+          <button type="button" class="slot" data-full="true" aria-pressed="false" data-est="Estimación orientativa: 45 € de diagnóstico, a cuenta de la reparación">
+            <span class="slot-t">Diagnóstico electrónico · mañana 16:00</span>
+            <span class="slot-s">Completo · siguiente hueco: pasado 09:00</span>
+          </button>
+          <button type="button" class="slot" data-full="false" aria-pressed="false" data-est="Estimación orientativa: 40–55 € · aprox. 40 min">
+            <span class="slot-t">Pre-ITV · pasado 10:00</span>
+            <span class="slot-s">Revisión previa a la inspección</span>
+          </button>
+        </div>
+
+        <div class="est" id="estimate" aria-live="polite">Selecciona un servicio para ver la estimación orientativa.</div>
+
+        <p class="tab-label" style="margin-top:1.6rem">02 / Tus datos</p>
+        <div class="field">
+          <label for="nombre">Nombre y apellidos</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Nombre de contacto">
+        </div>
+        <div class="field">
+          <label for="matricula">Matrícula</label>
+          <input id="matricula" name="matricula" type="text" required placeholder="0000 XYZ">
+        </div>
+        <div class="field">
+          <label for="tel">Teléfono</label>
+          <input id="tel" name="tel" type="tel" autocomplete="tel" required placeholder="Teléfono / WhatsApp">
+        </div>
+
+        <button type="submit" class="btn-stamp" id="confirmBtn" data-done="CITA CONFIRMADA" disabled>Pedir cita</button>
+        <p class="demo-note">Demo orientativa. Las estimaciones no son un presupuesto en firme y no se guarda ningún dato.</p>
+
+        <div class="confirm" id="confirm" hidden>
+          <span class="stamp">CONFIRMADA</span>
+          <p class="confirm-t" id="confirmMsg">Cita confirmada</p>
+          <p class="confirm-b">Recibirías un WhatsApp de confirmación y otro en cuanto el coche estuviera listo. En esta demo no se envía nada.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <span class="demo-flag">DEMO ORIENTATIVA · datos de ejemplo</span>
+    <span class="by">Sistema por <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a></span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

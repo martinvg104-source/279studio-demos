@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centro Fisioterapia Ejemplo · Cita online</title>
+<meta name="description" content="Demo orientativa de agenda de citas, ficha de paciente y aviso automático de paciente en riesgo para un centro de fisioterapia. Ningún dato es real.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="#main" class="brand" aria-label="Centro de Fisioterapia Ejemplo, inicio">
+      <!-- LOGO PLACEHOLDER — sustituir por el logotipo real del cliente -->
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M 41.72,19.09 A 32,32 0 1 1 22.29,34.0" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
+      <span class="brand-word">Fisioterapia <span>Ejemplo</span></span>
+    </a>
+    <span class="sys-tag">SIS · AGENDA DE CITAS</span>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section">
+    <div class="wrap">
+      <p class="tab-label">00 / Cita</p>
+      <h1 class="display">Pide cita con<br>tu fisioterapeuta</h1>
+      <p class="lede reveal">Elige día, hora y profesional. El sistema confirma al momento y envía un recordatorio automático para reducir las ausencias.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap grid-2">
+      <div class="panel reveal">
+        <div class="panel-head"><span>AGENDA · HOY</span><span class="panel-code">SEC.02</span></div>
+        <ul class="fieldlist">
+          <li><span>09:30 · Valoración inicial — Sala 1</span><span class="dot dot-on" title="Disponible"></span></li>
+          <li><span>11:00 · Sesión de seguimiento — Sala 2</span><span class="dot dot-on" title="Disponible"></span></li>
+          <li><span>12:00 · Rehabilitación — Sala 1</span><span class="stamp stamp-warn">COMPLETO</span></li>
+          <li><span>17:00 · Valoración inicial — Sala 2</span><span class="dot dot-on" title="Disponible"></span></li>
+        </ul>
+        <p class="panel-foot">Los huecos se bloquean en cuanto se confirma una reserva.</p>
+      </div>
+
+      <form class="booking reveal" id="booking" novalidate>
+        <p class="tab-label">01 / Elige hueco</p>
+        <div class="slots" role="group" aria-label="Huecos disponibles">
+          <button type="button" class="slot" data-full="false" aria-pressed="false">
+            <span class="slot-t">Hoy · 09:30 · Valoración inicial</span>
+            <span class="slot-s">Ana R. · Sala 1</span>
+          </button>
+          <button type="button" class="slot" data-full="false" aria-pressed="false">
+            <span class="slot-t">Hoy · 11:00 · Seguimiento</span>
+            <span class="slot-s">Diego S. · Sala 2</span>
+          </button>
+          <button type="button" class="slot" data-full="true" aria-pressed="false">
+            <span class="slot-t">Hoy · 12:00 · Rehabilitación</span>
+            <span class="slot-s">Completo · siguiente: mañana 10:00</span>
+          </button>
+          <button type="button" class="slot" data-full="false" aria-pressed="false">
+            <span class="slot-t">Hoy · 17:00 · Valoración inicial</span>
+            <span class="slot-s">Ana R. · Sala 2</span>
+          </button>
+        </div>
+
+        <p class="tab-label" style="margin-top:1.6rem">02 / Tus datos</p>
+        <div class="field">
+          <label for="nombre">Nombre y apellidos</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Nombre del paciente">
+        </div>
+        <div class="field">
+          <label for="tel">Teléfono</label>
+          <input id="tel" name="tel" type="tel" autocomplete="tel" required placeholder="Teléfono de contacto">
+        </div>
+
+        <button type="submit" class="btn-stamp" id="confirmBtn" data-done="CITA AGENDADA" disabled>Agendar cita</button>
+        <p class="demo-note">Demo orientativa. No se envía ni se guarda ningún dato.</p>
+
+        <div class="confirm" id="confirm" hidden>
+          <span class="stamp">AGENDADA</span>
+          <p class="confirm-t" id="confirmMsg">Cita agendada</p>
+          <p class="confirm-b">El paciente recibiría un SMS y un recordatorio automático 24&nbsp;h antes. En esta demo no se envía nada.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="tab-label reveal">03 / Panel interno</p>
+      <div class="panel reveal" style="max-width:720px">
+        <div class="panel-head"><span>FICHAS · SEGUIMIENTO</span><span class="panel-code">P.07</span></div>
+        <ul class="fieldlist">
+          <li><span>Paciente A. — alta hace 4 meses, sin cita nueva</span><span class="stamp">REVISAR</span></li>
+          <li><span>Paciente B. — sesiones al día</span><span class="dot dot-on" title="Al día"></span></li>
+          <li><span>Paciente C. — bono de 10 sesiones, quedan 2</span><span class="stamp">AVISAR</span></li>
+        </ul>
+        <div class="alert">Aviso automático: el paciente A. lleva 4 meses sin volver. El sistema propone un mensaje de seguimiento antes de perder el contacto.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <span class="demo-flag">DEMO ORIENTATIVA · datos de ejemplo</span>
+    <span class="by">Sistema por <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a></span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
