@@ -55,18 +55,14 @@
      en su propio styles.css con sus tokens (Fases 2-4).
      ============================================================ */
   .studio-strip { background: var(--band); }
-  .studio-strip .wrap {
+  .studio-strip--head { border-bottom: 1px solid var(--line-strong); }
+  .studio-strip--head .wrap {
     display: flex; align-items: center; gap: var(--s-4);
     justify-content: space-between;
+    padding-block: var(--s-3);
   }
-  .studio-strip--head { border-bottom: 1px solid var(--line); }
-  .studio-strip--head .wrap { padding-block: var(--s-3); }
-  .studio-strip--foot { border-top: 1px solid var(--line); }
-  .studio-strip--foot .wrap {
-    flex-wrap: wrap; align-items: baseline;
-    padding-block: clamp(var(--s-6), 6vw, var(--s-7));
-    row-gap: var(--s-3);
-  }
+  .studio-strip--foot { border-block: 1px solid var(--line-strong); }
+  .studio-strip--foot .wrap { padding-block: clamp(var(--s-6), 6vw, var(--s-7)); }
 
   /* LOGO PLACEHOLDER — wordmark 279studio (provisional), sustituir por el logotipo real */
   .wordmark { display: inline-flex; align-items: baseline; gap: 7px; text-decoration: none; color: var(--ink); }
@@ -74,17 +70,19 @@
   .wordmark span { font-weight: 600; font-size: 0.66rem; letter-spacing: 0.24em; color: var(--ink-soft); }
   .strip-note { font-size: 0.8rem; color: var(--faint); text-align: right; }
 
-  .cta-q { flex: 1 1 20ch; font-size: 1.1rem; font-weight: 640; letter-spacing: -0.01em; color: var(--ink); }
-  .cta-sub { flex: 1 1 100%; order: 3; color: var(--ink-soft); font-size: 0.96rem; max-width: 56ch; }
+  .cta-q { font-size: 1.15rem; font-weight: 640; letter-spacing: -0.01em; color: var(--ink); max-width: 30ch; }
+  .cta-sub { margin-top: var(--s-2); color: var(--ink-soft); font-size: 0.96rem; max-width: 54ch; }
   .cta-link {
-    flex: 0 0 auto;
     display: inline-flex; align-items: center; gap: 8px;
+    margin-top: var(--s-4);
     font-weight: 640; font-size: 0.95rem; color: var(--accent-ink);
     text-decoration: none;
     border-bottom: 1px solid currentColor;
     padding-bottom: 2px;
   }
+  .cta-link .arrow { transition: transform 0.16s ease; }
   .cta-link:hover { color: var(--accent); }
+  .cta-link:hover .arrow { transform: translateX(3px); }
 
   /* ---------- índice ---------- */
   main { flex: 1; }
@@ -143,7 +141,7 @@
   }
 
   /* ---------- pie ---------- */
-  footer { background: var(--band); border-top: 1px solid var(--line); }
+  footer { background: var(--paper); }
   footer .wrap {
     display: flex; justify-content: space-between; gap: var(--s-3);
     flex-wrap: wrap; align-items: center;
@@ -241,8 +239,8 @@
   <section class="studio-strip studio-strip--foot" aria-labelledby="cta-h">
     <div class="wrap">
       <p class="cta-q" id="cta-h">¿Quieres un sistema así para tu negocio?</p>
-      <a class="cta-link" href="https://279studio.com" rel="noopener">Hablar con 279studio <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <p class="cta-sub">279studio monta la web, las reservas y el seguimiento para academias, clínicas y negocios con cita. Te quita trabajo y te hace ganar más.</p>
+      <a class="cta-link" href="https://279studio.com" rel="noopener">Hablar con 279studio <span class="arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 </main>
