@@ -4,6 +4,10 @@
 **propio sistema independiente** (paleta, tipografía, layout, principios y movimiento).
 Se hizo así a propósito: son mundos distintos, no variaciones de una plantilla.
 
+> El plan de elevación (galería + framing 279studio por fases, y el CTA "Opción 1"
+> aprobado) vive en [`FASES.md`](FASES.md). El componente de framing `.studio-strip`
+> se define ahí y se replica —sin CSS compartido— en cada pieza.
+
 ## Por qué
 
 La primera versión compartía un sistema único ("Manual de Sistema": fondo grafito

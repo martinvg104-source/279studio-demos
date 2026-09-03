@@ -4,26 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demos · 279studio</title>
-<meta name="description" content="Tres ejemplos de cómo trabaja 279studio, uno por sector. Pruébalos tú mismo: los datos son de ejemplo y nada de lo que escribas se guarda.">
+<meta name="description" content="Tres demos de 279studio, una por sector: academia, clínica y taller. Datos inventados; ningún formulario envía ni guarda nada.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#1b1b1a">
+<meta name="theme-color" content="#f1eee7">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="279studio">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Demos · 279studio">
-<meta property="og:description" content="Tres ejemplos de cómo trabaja 279studio, uno por sector. Pruébalos tú mismo.">
+<meta property="og:description" content="Tres demos de 279studio, una por sector. Ábrelas y pruébalas: datos inventados, nada se envía.">
 <style>
   :root {
-    --paper: #faf9f6;
+    --paper: #fbfaf7;
+    --band: #f1eee7;
     --raise: #ffffff;
-    --ink: #1f1d1a;
-    --ink-soft: #4b4842;
-    --faint: #85817a;
-    --line: rgba(31, 29, 26, 0.12);
-    --line-strong: rgba(31, 29, 26, 0.22);
-    --accent: #1b5e5a;
-    --accent-ink: #16514d;
+    --ink: #1e1c19;
+    --ink-soft: #47443e;
+    --faint: #837f77;
+    --line: rgba(30, 28, 25, 0.13);
+    --line-strong: rgba(30, 28, 25, 0.24);
+    --accent: #185753;
+    --accent-ink: #123f3c;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
     /* escala de espaciado compartida (criterio, no estética) */
@@ -44,85 +45,111 @@
     -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; }
-  ::selection { background: #d7e6e4; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
-  .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding-inline: clamp(20px, 6vw, 40px); }
+  .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding-inline: clamp(20px, 6vw, 40px); }
 
-  /* ---------- cabecera: marca 279studio ---------- */
-  .site-head { border-bottom: 1px solid var(--line); }
-  .site-head .wrap {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: var(--s-4); padding-block: var(--s-4);
+  /* ============================================================
+     .studio-strip — componente de framing 279studio (ver FASES.md)
+     Skin neutro de la galería. Cada demo replica esta estructura
+     en su propio styles.css con sus tokens (Fases 2-4).
+     ============================================================ */
+  .studio-strip { background: var(--band); }
+  .studio-strip .wrap {
+    display: flex; align-items: center; gap: var(--s-4);
+    justify-content: space-between;
   }
-  /* LOGO PLACEHOLDER — marca 279studio (provisional), sustituir por el logotipo real */
+  .studio-strip--head { border-bottom: 1px solid var(--line); }
+  .studio-strip--head .wrap { padding-block: var(--s-3); }
+  .studio-strip--foot { border-top: 1px solid var(--line); }
+  .studio-strip--foot .wrap {
+    flex-wrap: wrap; align-items: baseline;
+    padding-block: clamp(var(--s-6), 6vw, var(--s-7));
+    row-gap: var(--s-3);
+  }
+
+  /* LOGO PLACEHOLDER — wordmark 279studio (provisional), sustituir por el logotipo real */
   .wordmark { display: inline-flex; align-items: baseline; gap: 7px; text-decoration: none; color: var(--ink); }
-  .wordmark b { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.015em; }
-  .wordmark span { font-weight: 600; font-size: 0.72rem; letter-spacing: 0.22em; color: var(--ink-soft); }
-  .head-tag { font-size: 0.8rem; color: var(--faint); }
+  .wordmark b { font-weight: 800; font-size: 1.05rem; letter-spacing: 0.02em; }
+  .wordmark span { font-weight: 600; font-size: 0.66rem; letter-spacing: 0.24em; color: var(--ink-soft); }
+  .strip-note { font-size: 0.8rem; color: var(--faint); text-align: right; }
 
-  main { flex: 1; padding-block: clamp(var(--s-6), 7vw, var(--s-8)) clamp(var(--s-7), 11vw, var(--s-9)); }
+  .cta-q { flex: 1 1 20ch; font-size: 1.1rem; font-weight: 640; letter-spacing: -0.01em; color: var(--ink); }
+  .cta-sub { flex: 1 1 100%; order: 3; color: var(--ink-soft); font-size: 0.96rem; max-width: 56ch; }
+  .cta-link {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 640; font-size: 0.95rem; color: var(--accent-ink);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .cta-link:hover { color: var(--accent); }
 
-  h1 { font-size: clamp(2rem, 5.4vw, 2.7rem); font-weight: 650; letter-spacing: -0.018em; line-height: 1.08; }
-  .lede { margin-top: var(--s-4); max-width: 52ch; color: var(--ink-soft); font-size: 1.05rem; }
+  /* ---------- índice ---------- */
+  main { flex: 1; }
+  .intro { padding-block: clamp(var(--s-7), 9vw, var(--s-8)) 0; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.5rem); font-weight: 640; letter-spacing: -0.02em; line-height: 1.12; }
+  .lede { margin-top: var(--s-4); max-width: 54ch; color: var(--ink-soft); font-size: 1.05rem; }
 
-  .demos { margin-top: clamp(var(--s-7), 8vw, var(--s-8)); border-top: 1px solid var(--line-strong); }
+  .demos {
+    list-style: none;
+    margin-top: clamp(var(--s-6), 7vw, var(--s-7));
+    border-top: 1px solid var(--line-strong);
+  }
   .demo {
     display: grid;
-    grid-template-columns: 46px 1fr auto;
+    grid-template-columns: 52px 1fr auto;
     align-items: start;
     gap: var(--s-5);
     padding: clamp(var(--s-5), 5vw, var(--s-6)) 0;
     border-bottom: 1px solid var(--line);
     text-decoration: none;
-    transition: background 0.16s ease;
   }
-  .demo:hover, .demo:focus-visible { background: rgba(27, 94, 90, 0.045); }
-  .demo:hover { outline: none; }
+  .demo:hover, .demo:focus-visible { outline: none; }
 
-  .demo-motif { width: 46px; height: 46px; color: var(--accent-ink); opacity: 0.72; }
-  .demo-motif svg { width: 100%; height: 100%; display: block; }
+  .demo-motif {
+    width: 52px; height: 52px;
+    display: grid; place-items: center;
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+  }
+  .demo-motif svg { width: 30px; height: 30px; display: block; }
 
   .demo-body { min-width: 0; }
-  .demo-sector {
-    display: inline-block; font-size: 0.74rem; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--faint); margin-bottom: var(--s-2);
+  .demo-sector { display: block; font-size: 0.8rem; font-weight: 500; color: var(--faint); }
+  .demo-name {
+    display: block; margin-top: 3px;
+    font-size: 1.2rem; font-weight: 640; letter-spacing: -0.01em;
+    text-decoration-thickness: 1px; text-underline-offset: 3px;
   }
-  .demo-name { display: block; font-size: 1.22rem; font-weight: 650; letter-spacing: -0.01em; }
-  .demo-desc { display: block; margin-top: var(--s-2); color: var(--ink-soft); max-width: 54ch; }
+  .demo:hover .demo-name, .demo:focus-visible .demo-name { text-decoration: underline; }
+  .demo-desc { display: block; margin-top: var(--s-2); color: var(--ink-soft); max-width: 56ch; }
 
   .demo-go {
     align-self: center;
-    font-weight: 600; font-size: 0.92rem; color: var(--accent-ink);
+    display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 600; font-size: 0.9rem; color: var(--accent-ink);
     white-space: nowrap;
   }
-  .demo-go .arrow { display: inline-block; transition: transform 0.16s ease; }
-  .demo:hover .demo-name { text-decoration: underline; text-underline-offset: 3px; }
-  .demo:hover .demo-go .arrow, .demo:focus-visible .demo-go .arrow { transform: translateX(4px); }
+  .demo-go .arrow { transition: transform 0.16s ease; }
+  .demo:hover .demo-go .arrow, .demo:focus-visible .demo-go .arrow { transform: translateX(3px); }
 
-  .disclaimer { margin-top: var(--s-6); font-size: 0.88rem; color: var(--faint); max-width: 56ch; }
-
-  /* ---------- remate: CTA a 279studio ---------- */
-  .cta {
-    margin-top: clamp(var(--s-7), 9vw, var(--s-9));
-    padding: clamp(var(--s-5), 5vw, var(--s-6));
-    background: var(--raise);
-    border: 1px solid var(--line-strong);
-    border-radius: 6px;
+  .disclaimer {
+    padding-block: var(--s-6) clamp(var(--s-7), 9vw, var(--s-8));
+    font-size: 0.88rem; color: var(--faint); max-width: 58ch;
   }
-  .cta h2 { font-size: 1.15rem; font-weight: 650; letter-spacing: -0.01em; }
-  .cta p { margin-top: var(--s-2); color: var(--ink-soft); max-width: 50ch; }
-  .cta a.cta-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: var(--s-4); padding: 11px 20px;
-    background: var(--accent); color: #fff; text-decoration: none;
-    font-weight: 600; border-radius: 5px;
-    transition: background 0.16s ease;
-  }
-  .cta a.cta-link:hover { background: var(--accent-ink); }
 
-  footer { border-top: 1px solid var(--line); padding-block: var(--s-5); font-size: 0.85rem; color: var(--faint); }
-  footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  /* ---------- pie ---------- */
+  footer { background: var(--band); border-top: 1px solid var(--line); }
+  footer .wrap {
+    display: flex; justify-content: space-between; gap: var(--s-3);
+    flex-wrap: wrap; align-items: center;
+    padding-block: var(--s-5);
+    font-size: 0.85rem; color: var(--faint);
+  }
   footer a { text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
@@ -130,6 +157,7 @@
     .demo { grid-template-columns: 1fr; gap: var(--s-3); }
     .demo-motif { display: none; }
     .demo-go { align-self: start; }
+    .strip-note { max-width: 12ch; }
   }
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
@@ -137,85 +165,95 @@
 </style>
 </head>
 <body>
-<header class="site-head">
+
+<header class="studio-strip studio-strip--head">
   <div class="wrap">
     <!-- LOGO PLACEHOLDER — marca 279studio (provisional), sustituir por el logotipo real -->
-    <a class="wordmark" href="https://279studio.com" target="_blank" rel="noopener">
-      <b>279</b><span>STUDIO</span>
-    </a>
-    <span class="head-tag">Demos orientativas</span>
+    <a class="wordmark" href="https://279studio.com" rel="noopener"><b>279</b><span>STUDIO</span></a>
+    <span class="strip-note">Demos orientativas · nada se envía</span>
   </div>
 </header>
 
 <main>
+  <div class="wrap intro">
+    <h1>Tres demos, una por sector</h1>
+    <p class="lede">Cómo trabaja 279studio, con negocios y datos inventados. Ábrelas y pruébalas tú mismo: ningún formulario envía ni guarda nada.</p>
+  </div>
+
   <div class="wrap">
-    <h1>Demos</h1>
-    <p class="lede">Tres ejemplos de cómo trabaja 279studio, uno por sector. Ábrelos y pruébalos tú mismo: los negocios y los datos son inventados y nada de lo que escribas se guarda.</p>
+    <ol class="demos">
+      <li>
+        <a class="demo" href="genericas/academia/">
+          <span class="demo-motif" aria-hidden="true">
+            <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="2" y="2" width="26" height="26" rx="1.5"/>
+              <path d="M2 11h26M2 20h26M11 2v26M20 2v26"/>
+              <rect x="11" y="11" width="9" height="9" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="demo-body">
+            <span class="demo-sector">Academia de idiomas y refuerzo</span>
+            <span class="demo-name">Academia Ejemplo</span>
+            <span class="demo-desc">El horario semanal es la interfaz: eliges tu grupo tocando una casilla y, si está completa, entras en la lista de espera.</span>
+          </span>
+          <span class="demo-go">Abrir <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+      </li>
 
-    <div class="demos">
-      <a class="demo" href="genericas/academia/">
-        <span class="demo-motif" aria-hidden="true">
-          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="40" height="40" rx="3"/>
-            <path d="M3 16h40M3 29h40M16 3v40M29 3v40"/>
-            <rect x="17" y="17" width="11" height="11" fill="currentColor" stroke="none"/>
-          </svg>
-        </span>
-        <span class="demo-body">
-          <span class="demo-sector">Academia de idiomas y refuerzo</span>
-          <span class="demo-name">Academia Ejemplo</span>
-          <span class="demo-desc">El horario semanal es la interfaz: eliges tu grupo tocando una casilla y, si está completa, entras en la lista de espera.</span>
-        </span>
-        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
-      </a>
+      <li>
+        <a class="demo" href="genericas/clinica/">
+          <span class="demo-motif" aria-hidden="true">
+            <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="15" cy="6" r="3.2"/>
+              <path d="M15 9.5v10M15 12.5l-6 3.2M15 12.5l6 3.2M15 19.5l-4 8M15 19.5l4 8"/>
+            </svg>
+          </span>
+          <span class="demo-body">
+            <span class="demo-sector">Centro de fisioterapia</span>
+            <span class="demo-name">Fisioterapia Ejemplo</span>
+            <span class="demo-desc">Marcas en una silueta dónde te molesta, eliges hueco con tu fisioterapeuta y ves cómo iría la recuperación sesión a sesión.</span>
+          </span>
+          <span class="demo-go">Abrir <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+      </li>
 
-      <a class="demo" href="genericas/clinica/">
-        <span class="demo-motif" aria-hidden="true">
-          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="23" cy="9" r="5"/>
-            <path d="M23 14v16M23 18l-9 5M23 18l9 5M23 30l-6 12M23 30l6 12"/>
-          </svg>
-        </span>
-        <span class="demo-body">
-          <span class="demo-sector">Centro de fisioterapia</span>
-          <span class="demo-name">Fisioterapia Ejemplo</span>
-          <span class="demo-desc">Marcas en una silueta dónde te molesta, eliges hueco con tu fisioterapeuta y ves cómo iría la recuperación sesión a sesión.</span>
-        </span>
-        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
-      </a>
-
-      <a class="demo" href="genericas/taller/">
-        <span class="demo-motif" aria-hidden="true">
-          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M9 5h28v36l-5-3-4 3-5-3-4 3-5-3-5 3z" stroke-linejoin="round"/>
-            <path d="M15 15h16M15 22h16M15 29h10"/>
-          </svg>
-        </span>
-        <span class="demo-body">
-          <span class="demo-sector">Taller mecánico</span>
-          <span class="demo-name">Taller Ejemplo</span>
-          <span class="demo-desc">Una orden de trabajo que se rellena sola: marcas lo que necesita el coche, la estimación se suma por piezas y mano de obra, y pides cita de entrada.</span>
-        </span>
-        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
-      </a>
-    </div>
+      <li>
+        <a class="demo" href="genericas/taller/">
+          <span class="demo-motif" aria-hidden="true">
+            <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h18v24l-3-2-3 2-3-2-3 2-3-2-3 2z"/>
+              <path d="M10 10h10M10 15h10M10 20h6"/>
+            </svg>
+          </span>
+          <span class="demo-body">
+            <span class="demo-sector">Taller mecánico</span>
+            <span class="demo-name">Taller Ejemplo</span>
+            <span class="demo-desc">Una orden de trabajo que se rellena sola: marcas lo que necesita el coche, la estimación se suma por piezas y mano de obra, y pides cita de entrada.</span>
+          </span>
+          <span class="demo-go">Abrir <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+      </li>
+    </ol>
 
     <p class="disclaimer">Cada demo tiene su propio diseño porque está pensada para su sector. Son orientativas: los precios, horarios y datos son inventados y ningún formulario envía ni guarda nada.</p>
-
-    <section class="cta" aria-labelledby="cta-h">
-      <h2 id="cta-h">¿Quieres un sistema así para tu negocio?</h2>
-      <p>279studio monta la web, las reservas y el seguimiento de una academia, una clínica o un negocio con cita. Te quitamos trabajo y te hacemos ganar más.</p>
-      <a class="cta-link" href="https://279studio.com" target="_blank" rel="noopener">Hablar con 279studio <span aria-hidden="true">&rarr;</span></a>
-    </section>
   </div>
+
+  <section class="studio-strip studio-strip--foot" aria-labelledby="cta-h">
+    <div class="wrap">
+      <p class="cta-q" id="cta-h">¿Quieres un sistema así para tu negocio?</p>
+      <a class="cta-link" href="https://279studio.com" rel="noopener">Hablar con 279studio <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <p class="cta-sub">279studio monta la web, las reservas y el seguimiento para academias, clínicas y negocios con cita. Te quita trabajo y te hace ganar más.</p>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
     <!-- LOGO PLACEHOLDER — marca 279studio (provisional) -->
-    <span>279studio · Santa Cruz (Oleiros, A Coruña)</span>
-    <a href="https://279studio.com" target="_blank" rel="noopener">279studio.com</a>
+    <span>279&#8202;STUDIO · Santa Cruz (Oleiros, A Coruña)</span>
+    <a href="https://279studio.com" rel="noopener">279studio.com</a>
   </div>
 </footer>
+
 </body>
 </html>
