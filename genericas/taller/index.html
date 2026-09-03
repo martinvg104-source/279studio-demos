@@ -6,6 +6,13 @@
 <title>Taller Ejemplo · Presupuesto y cita</title>
 <meta name="description" content="Demo orientativa: marca lo que necesita tu coche, ve la estimación al momento y pide cita de entrada. Datos de ejemplo, no se envía nada.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#1c1b18">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="279studio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Taller Ejemplo · Presupuesto y cita">
+<meta property="og:description" content="Demo orientativa de 279studio: marca lo que necesita el coche, ve la estimación al momento y pide cita. El precio no es un presupuesto en firme.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,9 +32,18 @@
   </div>
 </header>
 
+<div class="demo-band">
+  <div class="wrap db-inner">
+    <!-- LOGO PLACEHOLDER — marca 279studio (provisional) -->
+    <span class="db-mark">279<span>STUDIO</span></span>
+    <span class="db-note">Demo orientativa — no se envía nada</span>
+  </div>
+</div>
+
 <main id="contenido" class="wrap">
   <h1>Pide presupuesto para tu coche</h1>
   <p class="intro">Marca lo que necesita: te damos una estimación orientativa al momento y una cita de entrada. El precio final se cierra al ver el coche.</p>
+  <p class="facts">Presupuesto sin compromiso · piezas + mano de obra desglosadas · factura con garantía · aviso por WhatsApp cuando esté listo</p>
 
   <form id="ot" novalidate>
     <section class="ot-box vehicle" aria-labelledby="h-veh">
@@ -118,11 +134,17 @@
       <button type="submit" class="btn sb-btn" id="sb-submit" disabled>Pedir cita</button>
     </div>
   </form>
+
+  <section class="cta-strip" aria-labelledby="cta-h">
+    <p class="cta-q" id="cta-h">¿Quieres que tu taller dé presupuestos así?</p>
+    <p class="cta-sub">279studio monta la web con el presupuestador, la agenda de entradas y el aviso automático por WhatsApp cuando el coche está listo.</p>
+    <a class="cta-link" href="https://279studio.com" target="_blank" rel="noopener">Hablar con 279studio <span aria-hidden="true">&rarr;</span></a>
+  </section>
 </main>
 
 <footer class="wrap foot">
-  <span>Demo · datos de ejemplo · el precio no es un presupuesto en firme</span>
-  <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a>
+  <span>Demo de 279studio · datos de ejemplo · el precio no es un presupuesto en firme</span>
+  <a href="https://279studio.com" target="_blank" rel="noopener">279studio.com</a>
 </footer>
 
 <script src="app.js"></script>

@@ -22,7 +22,10 @@ cambiando el color de acento — el patrón exacto que se lee como diseño gené
 - Los `clientes/` que se creen se duplican de la genérica del nicho y se editan
   solo dentro de su carpeta (ver `clientes/README.md`).
 - `index.html` (la galería) es deliberadamente neutro y mínimo (fuente de sistema,
-  sin numeración, sin mayúsculas de etiqueta). No es un cuarto "mundo"; es una lista.
+  sin numeración). No es un cuarto "mundo"; es una lista. Sí lleva la marca 279studio
+  (wordmark provisional marcado como `LOGO PLACEHOLDER` en cabecera y pie) y un bloque
+  de CTA a 279studio.com al final: la galería es la única página con identidad de
+  estudio; las demos siguen mostrando la marca del cliente en su cabecera.
 
 ## Lo esencial de cada demo
 
@@ -70,7 +73,18 @@ cambiando el color de acento — el patrón exacto que se lee como diseño gené
 
 ## Reflejos comunes (lo único que sí comparten)
 
-Son criterios de calidad, no tokens:
+Son criterios de calidad, no tokens. **No hay CSS compartido**: cada demo replica el
+criterio en su propio archivo, con sus colores y su tipografía.
+
+- Escala de espaciado común (múltiplos de 4: 4/8/12/16/24/32/48/64/96) para que el
+  ritmo vertical sea coherente entre demos aunque cambie la piel.
+- Patrón de cabecera (marca del cliente a la izquierda, dato de contexto a la derecha)
+  y de pie (nota "demo · no se envía nada" + enlace a 279studio) repetido en las tres.
+- Todas las páginas: `favicon.svg` de la raíz, `theme-color` con el color de marca de
+  esa demo, y `og:title` / `og:description` propios (para que el enlace se vea bien al
+  compartirlo por WhatsApp o email).
+
+Además:
 - Ningún acento en un solo borde de una tarjeta (side-tab / stripe).
 - Ningún easing con rebote/elástico (overshoot); ease-out y punto.
 - Nada de etiquetas en monoespaciado y mayúsculas; nada de numeración de pasos

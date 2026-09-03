@@ -6,6 +6,13 @@
 <title>Academia Ejemplo · Reserva de clases</title>
 <meta name="description" content="Demo orientativa: elige tu grupo en el horario de la academia y reserva plaza. Datos de ejemplo, no se envía nada.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#26402f">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="279studio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Academia Ejemplo · Reserva de clases">
+<meta property="og:description" content="Demo orientativa de 279studio: elige tu grupo en el horario y reserva plaza. Datos de ejemplo, no se envía nada.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,13 +28,22 @@
       <span class="brand-badge" aria-hidden="true"></span>
       <span class="brand-name">Academia Ejemplo</span>
     </span>
-    <span class="term">Curso actual</span>
+    <span class="term">Curso 2025–26</span>
   </div>
 </header>
+
+<div class="demo-band">
+  <div class="wrap db-inner">
+    <!-- LOGO PLACEHOLDER — marca 279studio (provisional) -->
+    <span class="db-mark">279<span>STUDIO</span></span>
+    <span class="db-note">Demo orientativa — no se envía nada</span>
+  </div>
+</div>
 
 <main id="contenido" class="wrap">
   <h1>Elige tu grupo en el horario</h1>
   <p class="intro">Toca una clase con plazas libres. Si está completa, te apuntamos a la lista de espera y te avisamos en cuanto se libere un sitio.</p>
+  <p class="facts">Grupos de 6–8 alumnos · sesiones de 60 min · desde 45 €/mes · matrícula abierta</p>
 
   <div class="daybar" role="tablist" aria-label="Día de la semana">
     <button type="button" role="tab" aria-selected="true" data-day="lun">Lunes</button>
@@ -178,7 +194,7 @@
 
   <p class="selected" id="selected" aria-live="polite">Aún no has elegido clase.</p>
 
-  <form class="signup sheet" id="signup" novalidate>
+  <form class="signup" id="signup" novalidate>
     <h2>Apúntate</h2>
     <div class="field">
       <label for="nombre">Nombre y apellidos</label>
@@ -196,11 +212,17 @@
       <p id="confirm-body">Te escribiríamos por email para confirmar el grupo y el material. En esta demo no se envía nada.</p>
     </div>
   </form>
+
+  <section class="cta-strip" aria-labelledby="cta-h">
+    <p class="cta-q" id="cta-h">¿Quieres este horario funcionando en la web de tu academia?</p>
+    <p class="cta-sub">279studio lo monta con reservas, lista de espera y avisos automáticos de plaza libre.</p>
+    <a class="cta-link" href="https://279studio.com" target="_blank" rel="noopener">Hablar con 279studio <span aria-hidden="true">&rarr;</span></a>
+  </section>
 </main>
 
 <footer class="wrap foot">
-  <span>Demo · datos de ejemplo · no se envía nada</span>
-  <a href="https://279studio.com" target="_blank" rel="noopener">279studio</a>
+  <span>Demo de 279studio · datos de ejemplo · no se envía nada</span>
+  <a href="https://279studio.com" target="_blank" rel="noopener">279studio.com</a>
 </footer>
 
 <script src="app.js"></script>

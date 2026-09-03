@@ -3,20 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Demos</title>
-<meta name="description" content="Tres demos para probar. Datos de ejemplo; nada de lo que escribas se guarda.">
+<title>Demos · 279studio</title>
+<meta name="description" content="Tres ejemplos de cómo trabaja 279studio, uno por sector. Pruébalos tú mismo: los datos son de ejemplo y nada de lo que escribas se guarda.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1b1a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="279studio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Demos · 279studio">
+<meta property="og:description" content="Tres ejemplos de cómo trabaja 279studio, uno por sector. Pruébalos tú mismo.">
 <style>
   :root {
     --paper: #faf9f6;
-    --ink: #23211d;
-    --ink-soft: #57544d;
-    --faint: #8a867d;
-    --line: rgba(35, 33, 29, 0.14);
-    --focus: #1b5e5a;
+    --raise: #ffffff;
+    --ink: #1f1d1a;
+    --ink-soft: #4b4842;
+    --faint: #85817a;
+    --line: rgba(31, 29, 26, 0.12);
+    --line-strong: rgba(31, 29, 26, 0.22);
+    --accent: #1b5e5a;
+    --accent-ink: #16514d;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* escala de espaciado compartida (criterio, no estética) */
+    --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+    --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     font-family: var(--sans);
     color: var(--ink);
@@ -29,115 +44,176 @@
     -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; }
-  ::selection { background: #d9e6e4; }
-  :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+  ::selection { background: #d7e6e4; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
-  .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding-inline: clamp(20px, 6vw, 40px); }
-  main { flex: 1; padding-block: clamp(52px, 12vw, 104px); }
+  .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding-inline: clamp(20px, 6vw, 40px); }
 
-  h1 {
-    font-size: clamp(1.9rem, 5vw, 2.5rem);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  /* ---------- cabecera: marca 279studio ---------- */
+  .site-head { border-bottom: 1px solid var(--line); }
+  .site-head .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s-4); padding-block: var(--s-4);
   }
-  .lede {
-    margin-top: 12px;
-    max-width: 46ch;
-    color: var(--ink-soft);
-  }
+  /* LOGO PLACEHOLDER — marca 279studio (provisional), sustituir por el logotipo real */
+  .wordmark { display: inline-flex; align-items: baseline; gap: 7px; text-decoration: none; color: var(--ink); }
+  .wordmark b { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.015em; }
+  .wordmark span { font-weight: 600; font-size: 0.72rem; letter-spacing: 0.22em; color: var(--ink-soft); }
+  .head-tag { font-size: 0.8rem; color: var(--faint); }
 
-  .demos {
-    margin-top: clamp(32px, 7vw, 56px);
-    border-top: 1px solid var(--line);
-  }
+  main { flex: 1; padding-block: clamp(var(--s-6), 7vw, var(--s-8)) clamp(var(--s-7), 11vw, var(--s-9)); }
+
+  h1 { font-size: clamp(2rem, 5.4vw, 2.7rem); font-weight: 650; letter-spacing: -0.018em; line-height: 1.08; }
+  .lede { margin-top: var(--s-4); max-width: 52ch; color: var(--ink-soft); font-size: 1.05rem; }
+
+  .demos { margin-top: clamp(var(--s-7), 8vw, var(--s-8)); border-top: 1px solid var(--line-strong); }
   .demo {
-    display: block;
-    padding: clamp(22px, 5vw, 30px) 0;
+    display: grid;
+    grid-template-columns: 46px 1fr auto;
+    align-items: start;
+    gap: var(--s-5);
+    padding: clamp(var(--s-5), 5vw, var(--s-6)) 0;
     border-bottom: 1px solid var(--line);
     text-decoration: none;
+    transition: background 0.16s ease;
   }
-  .demo-head {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
+  .demo:hover, .demo:focus-visible { background: rgba(27, 94, 90, 0.045); }
+  .demo:hover { outline: none; }
+
+  .demo-motif { width: 46px; height: 46px; color: var(--accent-ink); opacity: 0.72; }
+  .demo-motif svg { width: 100%; height: 100%; display: block; }
+
+  .demo-body { min-width: 0; }
+  .demo-sector {
+    display: inline-block; font-size: 0.74rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: var(--s-2);
   }
-  .demo-name { font-size: 1.2rem; font-weight: 600; }
-  .demo-sector { font-size: 0.9rem; color: var(--faint); }
-  .demo-desc { display: block; margin-top: 8px; color: var(--ink-soft); max-width: 58ch; }
-  .demo-open {
-    display: block;
-    margin-top: 12px;
-    font-weight: 500;
-    color: var(--focus);
+  .demo-name { display: block; font-size: 1.22rem; font-weight: 650; letter-spacing: -0.01em; }
+  .demo-desc { display: block; margin-top: var(--s-2); color: var(--ink-soft); max-width: 54ch; }
+
+  .demo-go {
+    align-self: center;
+    font-weight: 600; font-size: 0.92rem; color: var(--accent-ink);
+    white-space: nowrap;
   }
+  .demo-go .arrow { display: inline-block; transition: transform 0.16s ease; }
   .demo:hover .demo-name { text-decoration: underline; text-underline-offset: 3px; }
-  .demo:hover .demo-open,
-  .demo:focus-visible .demo-open { text-decoration: underline; text-underline-offset: 3px; }
+  .demo:hover .demo-go .arrow, .demo:focus-visible .demo-go .arrow { transform: translateX(4px); }
 
-  .disclaimer {
-    margin-top: 28px;
-    font-size: 0.88rem;
-    color: var(--faint);
-  }
+  .disclaimer { margin-top: var(--s-6); font-size: 0.88rem; color: var(--faint); max-width: 56ch; }
 
-  footer {
-    border-top: 1px solid var(--line);
-    padding-block: 18px;
-    font-size: 0.85rem;
-    color: var(--faint);
+  /* ---------- remate: CTA a 279studio ---------- */
+  .cta {
+    margin-top: clamp(var(--s-7), 9vw, var(--s-9));
+    padding: clamp(var(--s-5), 5vw, var(--s-6));
+    background: var(--raise);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
   }
-  footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .cta h2 { font-size: 1.15rem; font-weight: 650; letter-spacing: -0.01em; }
+  .cta p { margin-top: var(--s-2); color: var(--ink-soft); max-width: 50ch; }
+  .cta a.cta-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: var(--s-4); padding: 11px 20px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-weight: 600; border-radius: 5px;
+    transition: background 0.16s ease;
+  }
+  .cta a.cta-link:hover { background: var(--accent-ink); }
+
+  footer { border-top: 1px solid var(--line); padding-block: var(--s-5); font-size: 0.85rem; color: var(--faint); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; }
   footer a { text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
+  @media (max-width: 560px) {
+    .demo { grid-template-columns: 1fr; gap: var(--s-3); }
+    .demo-motif { display: none; }
+    .demo-go { align-self: start; }
+  }
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
   }
 </style>
 </head>
 <body>
+<header class="site-head">
+  <div class="wrap">
+    <!-- LOGO PLACEHOLDER — marca 279studio (provisional), sustituir por el logotipo real -->
+    <a class="wordmark" href="https://279studio.com" target="_blank" rel="noopener">
+      <b>279</b><span>STUDIO</span>
+    </a>
+    <span class="head-tag">Demos orientativas</span>
+  </div>
+</header>
+
 <main>
   <div class="wrap">
     <h1>Demos</h1>
-    <p class="lede">Tres ejemplos para probar tú mismo. Todos los datos son de ejemplo y nada de lo que escribas se guarda.</p>
+    <p class="lede">Tres ejemplos de cómo trabaja 279studio, uno por sector. Ábrelos y pruébalos tú mismo: los negocios y los datos son inventados y nada de lo que escribas se guarda.</p>
 
     <div class="demos">
       <a class="demo" href="genericas/academia/">
-        <span class="demo-head">
-          <span class="demo-name">Academia Ejemplo</span>
-          <span class="demo-sector">Academia de idiomas y refuerzo</span>
+        <span class="demo-motif" aria-hidden="true">
+          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="40" height="40" rx="3"/>
+            <path d="M3 16h40M3 29h40M16 3v40M29 3v40"/>
+            <rect x="17" y="17" width="11" height="11" fill="currentColor" stroke="none"/>
+          </svg>
         </span>
-        <span class="demo-desc">Un horario semanal de clases sobre papel de cuadrícula: eliges tu grupo tocando una casilla y, si está completa, entras en la lista de espera.</span>
-        <span class="demo-open">Abrir demo &rarr;</span>
+        <span class="demo-body">
+          <span class="demo-sector">Academia de idiomas y refuerzo</span>
+          <span class="demo-name">Academia Ejemplo</span>
+          <span class="demo-desc">El horario semanal es la interfaz: eliges tu grupo tocando una casilla y, si está completa, entras en la lista de espera.</span>
+        </span>
+        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
       </a>
 
       <a class="demo" href="genericas/clinica/">
-        <span class="demo-head">
-          <span class="demo-name">Fisioterapia Ejemplo</span>
-          <span class="demo-sector">Centro de fisioterapia</span>
+        <span class="demo-motif" aria-hidden="true">
+          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="23" cy="9" r="5"/>
+            <path d="M23 14v16M23 18l-9 5M23 18l9 5M23 30l-6 12M23 30l6 12"/>
+          </svg>
         </span>
-        <span class="demo-desc">Marcas en una silueta dónde te molesta, eliges hueco con tu fisioterapeuta y ves cómo iría la recuperación sesión a sesión.</span>
-        <span class="demo-open">Abrir demo &rarr;</span>
+        <span class="demo-body">
+          <span class="demo-sector">Centro de fisioterapia</span>
+          <span class="demo-name">Fisioterapia Ejemplo</span>
+          <span class="demo-desc">Marcas en una silueta dónde te molesta, eliges hueco con tu fisioterapeuta y ves cómo iría la recuperación sesión a sesión.</span>
+        </span>
+        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
       </a>
 
       <a class="demo" href="genericas/taller/">
-        <span class="demo-head">
-          <span class="demo-name">Taller Ejemplo</span>
-          <span class="demo-sector">Taller mecánico</span>
+        <span class="demo-motif" aria-hidden="true">
+          <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M9 5h28v36l-5-3-4 3-5-3-4 3-5-3-5 3z" stroke-linejoin="round"/>
+            <path d="M15 15h16M15 22h16M15 29h10"/>
+          </svg>
         </span>
-        <span class="demo-desc">Una orden de trabajo que se rellena sola: marcas lo que necesita el coche, la estimación se suma por piezas y mano de obra, y pides cita de entrada.</span>
-        <span class="demo-open">Abrir demo &rarr;</span>
+        <span class="demo-body">
+          <span class="demo-sector">Taller mecánico</span>
+          <span class="demo-name">Taller Ejemplo</span>
+          <span class="demo-desc">Una orden de trabajo que se rellena sola: marcas lo que necesita el coche, la estimación se suma por piezas y mano de obra, y pides cita de entrada.</span>
+        </span>
+        <span class="demo-go">Abrir demo <span class="arrow">&rarr;</span></span>
       </a>
     </div>
 
-    <p class="disclaimer">Demos orientativas. Los negocios, precios y datos son inventados.</p>
+    <p class="disclaimer">Cada demo tiene su propio diseño porque está pensada para su sector. Son orientativas: los precios, horarios y datos son inventados y ningún formulario envía ni guarda nada.</p>
+
+    <section class="cta" aria-labelledby="cta-h">
+      <h2 id="cta-h">¿Quieres un sistema así para tu negocio?</h2>
+      <p>279studio monta la web, las reservas y el seguimiento de una academia, una clínica o un negocio con cita. Te quitamos trabajo y te hacemos ganar más.</p>
+      <a class="cta-link" href="https://279studio.com" target="_blank" rel="noopener">Hablar con 279studio <span aria-hidden="true">&rarr;</span></a>
+    </section>
   </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>279studio</span>
+    <!-- LOGO PLACEHOLDER — marca 279studio (provisional) -->
+    <span>279studio · Santa Cruz (Oleiros, A Coruña)</span>
     <a href="https://279studio.com" target="_blank" rel="noopener">279studio.com</a>
   </div>
 </footer>

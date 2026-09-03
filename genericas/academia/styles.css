@@ -4,27 +4,31 @@
 
 :root {
   --paper: #fcfcfb;        /* blanco de cuaderno escolar */
-  --grid-rule: #d3e0f2;    /* cuadrícula azul pálida */
-  --grid-faint: #e6edf7;   /* cuadrícula de fondo de página, más tenue */
-  --board: #26402f;        /* verde encerado */
+  --grid-rule: #cfe0f4;    /* cuadrícula azul de la hoja */
+  --grid-faint: #eef3fa;   /* relleno de celda vacía / fondo tenue */
+  --board: #26402f;        /* verde encerado (cabecera del horario, acción, casilla elegida) */
   --board-hi: #33513c;
-  --board-ink: #eaf0ea;    /* tiza sobre verde */
-  --ink: #14315c;          /* azul estilográfica */
-  --graphite: #3a3a38;     /* texto de lectura */
-  --margin: #d98a86;       /* raya de margen + error nativo, nunca lleva texto */
-  --tab: #e7d8b4;          /* tono carpeta manila */
-  --hatch: rgba(58, 58, 56, 0.28);
-  --muted: #6f6f6b;        /* texto auxiliar y placeholders */
-  --sheet-line: rgba(20, 49, 92, 0.22); /* borde/perforado, derivado de --ink */
+  --board-ink: #eef3ee;    /* tiza sobre verde */
+  --ink: #13315c;          /* azul estilográfica (titulares, enlaces, etiquetas) */
+  --ink-line: rgba(19, 49, 92, 0.22);
+  --ink-line-soft: rgba(19, 49, 92, 0.12);
+  --graphite: #2a2a27;     /* texto de lectura */
+  --margin: #d98a86;       /* raya de margen del cuaderno, nunca lleva texto */
+  --tab: #e7d8b4;          /* tono carpeta manila (day-tabs móvil) */
+  --hatch: rgba(42, 42, 39, 0.30);
+  --muted: #5d5d58;        /* texto auxiliar y placeholders */
 
   --cell: 24px;            /* paso de cuadrícula */
-  --maxw: 1160px;
+  --maxw: 1120px;
   --f-head: "Zilla Slab", "Rockwell", Georgia, serif;
   --f-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* escala de espaciado (criterio compartido entre demos, múltiplos de 4) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { -webkit-text-size-adjust: 100%; }
 
 body {
@@ -32,10 +36,7 @@ body {
   font-size: clamp(15px, 1.15vw, 17px);
   line-height: 1.55;
   color: var(--graphite);
-  background-color: var(--paper);
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0 calc(var(--cell) - 1px), var(--grid-faint) calc(var(--cell) - 1px) var(--cell)),
-    repeating-linear-gradient(90deg, transparent 0 calc(var(--cell) - 1px), var(--grid-faint) calc(var(--cell) - 1px) var(--cell));
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -69,7 +70,7 @@ a { color: var(--ink); }
 }
 .skip-link:focus { left: 12px; top: 12px; }
 
-/* ---------- cabecera ---------- */
+/* ---------- cabecera del cliente ---------- */
 .masthead {
   background: var(--board);
   color: var(--board-ink);
@@ -80,15 +81,23 @@ a { color: var(--ink); }
   justify-content: space-between;
   gap: 1rem;
   min-height: 60px;
-  padding-block: 12px;
+  padding-block: var(--s-3);
 }
-.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand { display: inline-flex; align-items: center; gap: var(--s-3); }
 .brand-badge {
   width: 30px; height: 30px;
   border: 1.5px solid var(--board-ink);
   border-radius: 2px;
   flex-shrink: 0;
-  /* placeholder de logotipo */
+  position: relative;
+  /* placeholder de logotipo del cliente */
+}
+.brand-badge::after {
+  content: "";
+  position: absolute; inset: 7px;
+  border: 1.5px solid var(--board-ink);
+  opacity: 0.55;
+  border-radius: 1px;
 }
 .brand-name {
   font-family: var(--f-head);
@@ -100,10 +109,39 @@ a { color: var(--ink); }
   font-size: 0.8rem;
   color: var(--board-ink);
   opacity: 0.82;
+  font-variant-numeric: tabular-nums;
 }
 
+/* ---------- banda de demo (marca 279studio) ---------- */
+.demo-band {
+  background: rgba(19, 49, 92, 0.045);
+  border-bottom: 1px solid var(--ink-line-soft);
+}
+.db-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: 10px;
+  font-size: 0.8rem;
+}
+.db-mark {
+  font-family: var(--f-head);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.db-mark span {
+  font-weight: 600;
+  font-size: 0.72em;
+  letter-spacing: 0.18em;
+  margin-left: 3px;
+  color: var(--muted);
+}
+.db-note { color: var(--muted); }
+
 /* ---------- encabezado de contenido ---------- */
-main { padding-block: clamp(28px, 5vw, 52px) 64px; }
+main { padding-block: clamp(var(--s-6), 5vw, var(--s-7)) var(--s-8); }
 
 h1 {
   font-family: var(--f-head);
@@ -114,66 +152,69 @@ h1 {
   max-width: 18ch;
 }
 .intro {
-  margin-top: 0.8rem;
+  margin-top: var(--s-3);
   max-width: 56ch;
   color: var(--graphite);
 }
-
-/* ---------- hoja (papel de cuadrícula) ---------- */
-.sheet {
-  position: relative;
-  background-color: var(--paper);
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0 calc(var(--cell) - 1px), var(--grid-rule) calc(var(--cell) - 1px) var(--cell)),
-    repeating-linear-gradient(90deg, transparent 0 calc(var(--cell) - 1px), var(--grid-rule) calc(var(--cell) - 1px) var(--cell));
-  background-position: -1px -1px;
-  border: 1px solid rgba(20, 49, 92, 0.18);
-}
-/* raya de margen del cuaderno (sin texto encima) */
-.sheet::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  left: clamp(28px, 6%, 44px);
-  width: 1px;
-  background: var(--margin);
-  pointer-events: none;
+.facts {
+  margin-top: var(--s-3);
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- tira de días (solo móvil) ---------- */
 .daybar { display: none; }
 
-/* ---------- horario ---------- */
+/* ---------- horario (la hoja) ---------- */
 .timetable {
   width: 100%;
-  margin-top: clamp(20px, 3.5vw, 32px);
+  margin-top: clamp(var(--s-5), 3.5vw, var(--s-6));
   border-collapse: collapse;
   table-layout: fixed;
+  border: 1px solid var(--ink-line);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 calc(var(--cell) - 1px), var(--grid-rule) calc(var(--cell) - 1px) var(--cell)),
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--cell) - 1px), var(--grid-rule) calc(var(--cell) - 1px) var(--cell)),
+    var(--paper);
 }
 .timetable caption { text-align: left; }
 .timetable th,
 .timetable td {
-  border: 1px solid var(--grid-rule);
+  border: 1px solid var(--ink-line-soft);
   vertical-align: stretch;
   padding: 0;
 }
-.timetable thead th,
+
+/* cabecera de días: banda de pizarra */
+.timetable thead th {
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--board-ink);
+  background: var(--board);
+  border-color: var(--board);
+  padding: 11px 8px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+/* columna de horas */
 .timetable tbody th[scope="row"] {
   font-family: var(--f-body);
   font-weight: 600;
   color: var(--ink);
-  background: rgba(20, 49, 92, 0.05);
+  background: #eef2f8;
   font-variant-numeric: tabular-nums;
-}
-.timetable thead th { padding: 10px 8px; text-align: center; }
-.timetable tbody th[scope="row"] {
-  padding: 8px 10px;
-  width: clamp(58px, 9%, 78px);
+  padding: 8px 12px;
+  width: clamp(62px, 9%, 82px);
   text-align: right;
   white-space: nowrap;
 }
-.timetable .corner { border-color: transparent; background: transparent; }
-.timetable td { height: 66px; }
+
+/* celdas vacías: se ven como casilla, no como hueco */
+.timetable td:empty { background: var(--grid-faint); }
+.timetable td { height: 64px; }
+.timetable td.corner { background: var(--board); border-color: var(--board); }
 
 /* casilla de clase */
 .class-btn {
@@ -181,17 +222,17 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
   width: 100%; height: 100%;
-  padding: 8px 10px;
+  padding: 8px 12px;
   border: 0;
-  background: transparent;
+  background: var(--paper);
   font: inherit;
   text-align: left;
   color: var(--graphite);
   cursor: pointer;
   overflow: hidden;
-  transition: color 0.14s ease;
+  transition: color 0.14s ease, background 0.14s ease;
 }
 /* relleno verde tipo "colorear la casilla" */
 .class-btn::before {
@@ -205,21 +246,24 @@ h1 {
   z-index: 0;
 }
 .class-btn > * { position: relative; z-index: 1; }
-.cb-name { font-weight: 600; font-size: 0.92rem; line-height: 1.15; }
-.cb-meta { font-size: 0.78rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cb-name { font-weight: 600; font-size: 0.94rem; line-height: 1.15; color: var(--ink); }
+.cb-meta { font-size: 0.8rem; color: var(--graphite); font-variant-numeric: tabular-nums; }
 
-.class-btn:hover { color: var(--ink); }
-.class-btn:hover::before { transform: scaleX(0.06); }
+.class-btn:hover { background: rgba(38, 64, 47, 0.06); }
+.class-btn:hover .cb-name { color: var(--board); }
 
 .class-btn[aria-pressed="true"] { color: var(--board-ink); }
 .class-btn[aria-pressed="true"]::before { transform: scaleX(1); }
-.class-btn[aria-pressed="true"] .cb-meta { color: var(--board-ink); opacity: 0.85; }
+.class-btn[aria-pressed="true"] .cb-name { color: var(--board-ink); }
+.class-btn[aria-pressed="true"] .cb-meta { color: var(--board-ink); opacity: 0.9; }
 
 /* clase completa: rayado a lápiz (no depende del color; además lleva texto "Completa") */
 .class-btn.full {
   background-image: repeating-linear-gradient(45deg, transparent 0 5px, var(--hatch) 5px 6px);
 }
+.class-btn.full .cb-name { color: var(--graphite); }
 .class-btn.full .cb-meta { color: var(--graphite); }
+.class-btn.full[aria-pressed="true"] .cb-name,
 .class-btn.full[aria-pressed="true"] .cb-meta { color: var(--board-ink); }
 
 /* trazo de check dibujado a mano */
@@ -239,51 +283,57 @@ h1 {
 }
 .class-btn[aria-pressed="true"] .tick { opacity: 1; stroke-dashoffset: 0; }
 
-/* ---------- línea "seleccionado" (visto a mano) ---------- */
+/* ---------- línea "seleccionado" ---------- */
 .selected {
-  margin-top: 16px;
+  margin-top: var(--s-4);
   color: var(--ink);
   font-weight: 500;
   min-height: 1.5em;
 }
-.selected::before {
+.selected.has-pick {
+  display: inline-block;
+  padding: 8px 14px;
+  background: rgba(38, 64, 47, 0.08);
+  border: 1px solid rgba(38, 64, 47, 0.2);
+  border-radius: 3px;
+}
+.selected.has-pick::before {
   content: "\2713\00a0\00a0";
   color: var(--board);
   font-weight: 700;
 }
-.selected:not(.has-pick)::before { content: none; }
 
-/* ---------- formulario "Apúntate" (cupón) ---------- */
+/* ---------- formulario "Apúntate" (tarjeta limpia) ---------- */
 .signup {
-  margin-top: clamp(24px, 4vw, 40px);
+  margin-top: clamp(var(--s-5), 4vw, var(--s-7));
   max-width: 460px;
-  padding: clamp(20px, 3.5vw, 30px);
-  padding-left: clamp(44px, 9%, 64px);
-  /* borde superior perforado */
-  border-top: 2px dashed rgba(20, 49, 92, 0.28);
+  padding: clamp(var(--s-5), 3.5vw, var(--s-6));
+  background: #fff;
+  border: 1px solid var(--ink-line);
+  border-radius: 3px;
 }
 .signup h2 {
   font-family: var(--f-head);
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--ink);
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
 }
-.field { margin-bottom: 12px; }
+.field { margin-bottom: var(--s-3); }
 .field label {
   display: block;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--ink);
-  margin-bottom: 4px;
+  margin-bottom: var(--s-1);
 }
 .field input {
   width: 100%;
   padding: 10px 12px;
   font: inherit;
   color: var(--graphite);
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(20, 49, 92, 0.3);
+  background: var(--paper);
+  border: 1px solid var(--ink-line);
   border-radius: 2px;
 }
 .field input::placeholder { color: var(--muted); }
@@ -291,7 +341,7 @@ h1 {
 .field input:user-invalid { border-color: var(--margin); }
 
 .btn-book {
-  margin-top: 6px;
+  margin-top: var(--s-2);
   padding: 12px 22px;
   font: inherit;
   font-weight: 600;
@@ -319,10 +369,9 @@ h1 {
 
 /* ---------- confirmación (nota en la hoja) ---------- */
 .confirm {
-  margin-top: 18px;
-  padding: 14px 2px 4px;
-  border-top: 1px dashed var(--sheet-line);
-  background: transparent;
+  margin-top: var(--s-4);
+  padding: var(--s-4) 0 var(--s-1);
+  border-top: 1px dashed var(--ink-line);
   animation: note-in 0.18s ease both;
 }
 .confirm-title {
@@ -337,18 +386,48 @@ h1 {
   font-weight: 700;
   -webkit-text-stroke: 0.4px var(--board);
 }
-.confirm-title + p { margin-top: 4px; font-size: 0.9rem; }
+.confirm-title + p { margin-top: var(--s-1); font-size: 0.9rem; }
 @keyframes note-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+
+/* ---------- remate / CTA a 279studio ---------- */
+.cta-strip {
+  margin-top: clamp(var(--s-7), 6vw, var(--s-8));
+  padding-top: clamp(var(--s-5), 4vw, var(--s-6));
+  border-top: 2px solid var(--ink-line);
+  max-width: 560px;
+}
+.cta-q {
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.cta-sub { margin-top: var(--s-2); color: var(--graphite); max-width: 48ch; }
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--s-4);
+  padding: 11px 20px;
+  background: var(--board);
+  color: var(--board-ink);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: background 0.14s ease;
+}
+.cta-link:hover { background: var(--board-hi); }
 
 /* ---------- pie ---------- */
 .foot {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding-block: 20px 40px;
+  padding-block: var(--s-5) var(--s-7);
   font-size: 0.8rem;
   color: var(--muted);
 }
@@ -361,7 +440,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 20px;
+    margin-top: var(--s-5);
   }
   .daybar button {
     flex: 1 1 auto;
@@ -371,7 +450,7 @@ h1 {
     font-size: 0.82rem;
     color: var(--graphite);
     background: var(--tab);
-    border: 1px solid var(--sheet-line);
+    border: 1px solid var(--ink-line);
     border-radius: 2px;
     cursor: pointer;
   }
@@ -397,11 +476,9 @@ h1 {
   .timetable[data-day="mie"] td.c-mie,
   .timetable[data-day="jue"] td.c-jue,
   .timetable[data-day="vie"] td.c-vie { display: table-cell; }
-  .timetable td { height: auto; min-height: 60px; }
-  .class-btn { min-height: 60px; }
-
-  .signup { padding-left: clamp(20px, 6%, 30px); }
-  .sheet::before { left: 10px; }
+  .timetable td { height: auto; min-height: 58px; }
+  .timetable td:empty { display: none; }
+  .class-btn { min-height: 58px; }
 }
 
 /* ---------- reduce motion ---------- */

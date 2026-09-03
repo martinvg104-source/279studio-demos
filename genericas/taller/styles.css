@@ -4,20 +4,26 @@
 
 :root {
   --concrete: #e7e5df;     /* hormigón cálido: fondo / papel de OT */
-  --steel: #f3f2ef;        /* relleno de las cajas de la OT */
-  --iron: #1c1b18;         /* casi-negro: titulares, marcos, texto fuerte */
-  --graphite: #34322d;     /* texto de lectura */
+  --steel: #f6f5f2;        /* relleno tenue */
+  --card: #ffffff;         /* cajas de la OT */
+  --iron: #1b1a17;         /* casi-negro: titulares, marcos, texto fuerte */
+  --graphite: #2b2a26;     /* texto de lectura */
   --hazard: #f0a500;       /* amarillo de seguridad: acción, marcado, banda del total */
-  --hazard-wash: #f7e6bd;  /* fondo tenue de fila marcada */
-  --oil: #3e4c59;          /* azul de mono: banda "E", km, enlaces */
-  --muted: #67635a;        /* texto auxiliar */
-  --stamp-red: #b23a2e;    /* solo la línea "ITV caduca" */
-  --rule: rgba(28, 27, 24, 0.22);
-  --rule-strong: rgba(28, 27, 24, 0.42);
+  --hazard-hi: #d9950a;
+  --hazard-wash: #faedcb;  /* fondo tenue de fila marcada */
+  --oil: #38434f;          /* azul de mono: banda "E", km, enlaces */
+  --muted: #5b574e;        /* texto auxiliar */
+  --stamp-red: #a5352a;    /* solo la línea "ITV caduca" */
+  --rule: rgba(27, 26, 23, 0.26);
+  --rule-strong: rgba(27, 26, 23, 0.52);
 
   --maxw: 1060px;
   --f-head: "Saira Semi Condensed", "Oswald", "Arial Narrow", sans-serif;
   --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* escala de espaciado (criterio compartido entre demos, múltiplos de 4) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,7 +53,7 @@ a { color: var(--oil); }
 }
 .skip-link:focus { left: 0; top: 0; }
 
-/* ---------- cabecera ---------- */
+/* ---------- cabecera del cliente ---------- */
 .masthead { background: var(--iron); border-bottom: 3px solid var(--hazard); }
 .masthead-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -57,7 +63,12 @@ a { color: var(--oil); }
 .brand-badge {
   width: 28px; height: 28px; flex-shrink: 0;
   border: 1.5px solid var(--concrete);
-  /* placeholder de logotipo */
+  position: relative;
+  /* placeholder de logotipo del cliente */
+}
+.brand-badge::after {
+  content: ""; position: absolute; inset: 6px;
+  border: 1.5px solid var(--concrete); opacity: 0.5;
 }
 .brand-name {
   font-family: var(--f-head); font-weight: 700;
@@ -66,33 +77,50 @@ a { color: var(--oil); }
 }
 .hours { font-size: 0.8rem; color: #a7a49c; white-space: nowrap; }
 
+/* ---------- banda de demo (marca 279studio) ---------- */
+.demo-band {
+  background: #deded7;
+  border-bottom: 1px solid var(--rule);
+}
+.db-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-3); padding-block: 10px; font-size: 0.8rem;
+}
+.db-mark { font-family: var(--f-head); font-weight: 700; color: var(--iron); letter-spacing: 0.01em; }
+.db-mark span { font-weight: 600; font-size: 0.74em; letter-spacing: 0.16em; margin-left: 3px; color: var(--muted); }
+.db-note { color: var(--muted); }
+
 /* ---------- contenido ---------- */
-main { padding-block: clamp(24px, 4.5vw, 44px) 90px; }
+main { padding-block: clamp(var(--s-5), 4.5vw, var(--s-6)) 90px; }
 
 h1 {
   font-family: var(--f-head); font-weight: 700;
   font-size: clamp(1.75rem, 4.6vw, 2.7rem);
   line-height: 1.1; color: var(--iron); max-width: 22ch;
 }
-.intro { margin-top: 0.7rem; max-width: 60ch; }
+.intro { margin-top: var(--s-3); max-width: 60ch; }
+.facts {
+  margin-top: var(--s-3); font-size: 0.85rem; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
 
 h2 {
   font-family: var(--f-head); font-weight: 600;
-  font-size: 1.16rem; color: var(--iron); margin-bottom: 12px;
+  font-size: 1.16rem; color: var(--iron); margin-bottom: var(--s-3);
 }
 
 /* ---------- caja de OT: marco completo + filas regladas ---------- */
 .ot-box {
-  background: var(--steel);
+  background: var(--card);
   border: 1px solid var(--rule-strong);
   padding: clamp(16px, 2.6vw, 22px);
-  margin-top: clamp(20px, 3.5vw, 30px);
+  margin-top: clamp(var(--s-5), 3.5vw, var(--s-6));
 }
 
 /* ---------- tira del vehículo ---------- */
 .veh-row {
   display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
-  padding-bottom: 12px; border-bottom: 1px dashed var(--rule);
+  padding-bottom: var(--s-3); border-bottom: 1px dashed var(--rule);
 }
 .plate {
   display: inline-flex; align-items: stretch;
@@ -129,18 +157,19 @@ h2 {
   gap: clamp(16px, 3vw, 28px);
   align-items: start;
 }
-.cols .ot-box { margin-top: clamp(20px, 3.5vw, 30px); height: 100%; }
+.cols .ot-box { margin-top: clamp(var(--s-5), 3.5vw, var(--s-6)); }
 
 /* checklist */
 .checklist { list-style: none; display: flex; flex-direction: column; }
-.checklist li { border-bottom: 1px dashed var(--rule); }
+.checklist li { border-bottom: 1px solid var(--rule); transition: background 0.12s ease; }
 .checklist li:last-child { border-bottom: 0; }
+.checklist li:hover { background: rgba(27, 26, 23, 0.035); }
 .checklist label {
-  display: flex; align-items: center; gap: 11px;
-  padding: 11px 4px; cursor: pointer; min-height: 46px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 6px; cursor: pointer; min-height: 48px;
 }
 .checklist input {
-  width: 18px; height: 18px; flex-shrink: 0;
+  width: 19px; height: 19px; flex-shrink: 0;
   accent-color: var(--hazard);
 }
 .checklist label:hover span { color: var(--iron); }
@@ -160,11 +189,19 @@ h2 {
 .est-table tbody .est-empty td { color: var(--muted); font-style: italic; padding-block: 16px; }
 .est-table tfoot .est-sub th,
 .est-table tfoot .est-sub td { padding-top: 12px; font-weight: 600; color: var(--graphite); }
+
+/* total: banda amarilla cuando hay algo; neutra mientras esté a cero */
 .est-table tfoot .est-total th,
 .est-table tfoot .est-total td {
   background: var(--hazard); color: var(--iron);
   font-family: var(--f-head); font-weight: 700; font-size: 1.05rem;
   padding: 10px 8px;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.est-table:has(.est-empty) tfoot .est-total th,
+.est-table:has(.est-empty) tfoot .est-total td {
+  background: var(--steel); color: var(--muted);
+  font-family: var(--f-body); font-weight: 600; font-size: 0.95rem;
 }
 .est-note { margin-top: 10px; font-size: 0.8rem; color: var(--muted); }
 
@@ -178,12 +215,12 @@ h2 {
 }
 
 /* ---------- huecos de entrada ---------- */
-.slots-sec { margin-top: clamp(22px, 4vw, 34px); }
+.slots-sec { margin-top: clamp(var(--s-5), 4vw, var(--s-6)); }
 .slots { display: flex; flex-wrap: wrap; gap: 10px; }
 .slot {
   font: inherit; font-weight: 500;
   padding: 11px 16px; min-height: 46px;
-  border: 1px solid var(--rule-strong); background: var(--steel);
+  border: 1px solid var(--rule-strong); background: var(--card);
   color: var(--graphite); cursor: pointer;
   font-variant-numeric: tabular-nums;
   transition: border-color 0.14s ease, background 0.14s ease;
@@ -198,7 +235,7 @@ h2 {
 }
 
 /* ---------- datos ---------- */
-.datos-sec { margin-top: clamp(22px, 4vw, 34px); max-width: 620px; }
+.datos-sec { margin-top: clamp(var(--s-5), 4vw, var(--s-6)); max-width: 620px; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .field { display: flex; flex-direction: column; }
 .field label { font-size: 0.8rem; font-weight: 600; color: var(--iron); margin-bottom: 5px; }
@@ -212,9 +249,9 @@ h2 {
 
 .authorize {
   display: flex; align-items: flex-start; gap: 9px;
-  margin: 16px 0 4px; font-size: 0.9rem; cursor: pointer;
+  margin: var(--s-4) 0 4px; font-size: 0.9rem; cursor: pointer;
 }
-.authorize input { width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0; accent-color: var(--hazard); }
+.authorize input { width: 19px; height: 19px; margin-top: 1px; flex-shrink: 0; accent-color: var(--hazard); }
 
 .btn {
   font-family: var(--f-head); font-weight: 700; font-size: 1rem;
@@ -223,17 +260,17 @@ h2 {
   border: 1px solid var(--hazard); cursor: pointer;
   transition: background 0.14s ease, transform 0.08s ease;
 }
-.btn:hover:not(:disabled) { background: #d9950a; }
+.btn:hover:not(:disabled) { background: var(--hazard-hi); }
 .btn:active:not(:disabled) { transform: translateY(1px); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn[data-state="done"] { background: transparent; color: var(--iron); border-color: var(--iron); }
 
-.form-submit { margin-top: 16px; display: inline-block; }
+.form-submit { margin-top: var(--s-4); display: inline-block; }
 .disclaimer { margin-top: 10px; font-size: 0.8rem; color: var(--muted); }
 
 /* ---------- confirmación: regla a todo el ancho con etiqueta encima ---------- */
 .confirm {
-  margin-top: 22px; padding-top: 16px;
+  margin-top: var(--s-5); padding-top: var(--s-4);
   border-top: 2px solid var(--rule-strong);
   animation: drop-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -244,13 +281,36 @@ h2 {
 .confirm-body { font-size: 0.92rem; }
 .confirm-body strong { font-variant-numeric: tabular-nums; }
 
+/* ---------- remate / CTA a 279studio ---------- */
+.cta-strip {
+  margin-top: clamp(var(--s-6), 6vw, var(--s-7));
+  padding-top: clamp(var(--s-5), 4vw, var(--s-6));
+  border-top: 2px solid var(--rule-strong);
+  max-width: 560px;
+}
+.cta-q {
+  font-family: var(--f-head); font-weight: 700;
+  font-size: 1.25rem; color: var(--iron); line-height: 1.2;
+}
+.cta-sub { margin-top: var(--s-2); color: var(--graphite); max-width: 54ch; }
+.cta-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: var(--s-4); padding: 12px 20px;
+  background: var(--hazard); color: var(--iron);
+  text-decoration: none; font-family: var(--f-head); font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--hazard);
+  transition: background 0.14s ease;
+}
+.cta-link:hover { background: var(--hazard-hi); }
+
 /* ---------- barra inferior fija (solo móvil) ---------- */
 .sticky-bar { display: none; }
 
 /* ---------- pie ---------- */
 .foot {
   display: flex; justify-content: space-between; gap: 1rem;
-  padding-block: 22px 40px; font-size: 0.8rem; color: var(--muted);
+  padding-block: var(--s-5) var(--s-7); font-size: 0.8rem; color: var(--muted);
 }
 .foot a { text-decoration: none; }
 .foot a:hover { text-decoration: underline; }
@@ -267,7 +327,7 @@ h2 {
     position: sticky; bottom: 0;
     margin: 20px calc(-1 * clamp(16px, 5vw, 52px)) 0;
     padding: 10px clamp(16px, 5vw, 52px);
-    background: var(--steel);
+    background: var(--card);
     border-top: 3px solid var(--hazard);
   }
   .sb-total { font-size: 0.9rem; color: var(--graphite); font-variant-numeric: tabular-nums; }
