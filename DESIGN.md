@@ -97,6 +97,43 @@ Además:
 - `:focus-visible`, `prefers-reduced-motion`, contraste de texto AA, responsive a
   móvil, y "demo orientativa, no se envía nada" visible.
 
+## clientes/compostela-judo — app-shell de reservas del club
+
+Demo 1:1 para Centro Deportivo Compostela Judo Club (ver `clientes/compostela-judo/README.md`).
+No es una `genericas/`, pero sigue la misma regla: mundo visual propio, autocontenido,
+sin CSS/JS compartido con el resto del repo. **Reemplaza** una versión anterior de esta
+demo que era una landing editorial de marketing ("la ficha de cinturón sobre el
+tatami") — el cliente pidió en su lugar una web-app con sistema de reservas como
+núcleo, así que el sujeto y la interacción cambiaron por completo.
+
+- **Sujeto:** no es una landing, es el "app shell" del club con dos roles simulados —
+  sidebar en escritorio, bottom nav en móvil, router por hash vanilla. Alumno: Inicio,
+  Reservar, Mis reservas, Actividades, Avisos, Perfil (Horarios es una vista más,
+  accesible desde Actividades). Administrador: Resumen, Reservas, Calendario, Alumnos
+  (incluye gestión de accesos), Grupos y actividades, Avisos y comunicaciones,
+  Automatizaciones, Configuración. El artefacto central es el wizard de reserva de 7
+  pasos con una barra de progreso simple (sin el motivo de cinturón como protagonista);
+  el cinturón sobrevive solo como chip de nivel en Perfil y en fichas de alumno.
+- **Color:** fondo gris muy suave `#f2f4f7`, tarjetas blancas con sombra sutil sobre
+  estructura azul marino/carbón `#0f172a` (sidebar, cabeceras de tarjeta oscuras) y
+  acción naranja cálida `#ea670f`. Estados con color semántico (pendiente ámbar,
+  confirmada/éxito verde, completada azul info, cancelada rojo) siempre con texto, no
+  solo color. Chips de cinturón (`#f4f1ea` `#e8c547` `#ec9a35` `#4c8c5a` `#2c5fa8`
+  `#7b5230` `#1a1a1a`) solo en Perfil.
+- **Tipografía:** Manrope (una sola familia, titulares y cuerpo) — deliberadamente más
+  "producto/app" que editorial, para no competir visualmente con la navegación
+  persistente. No se usa en ninguna `genericas/` ni en la versión anterior de esta
+  carpeta.
+- **Interacción:** reserva como vista de primer nivel (no modal) con wizard de 7 pasos
+  y calendario mensual propio (sin librería); "Horarios" con alternancia semana/mes y
+  detalle de clase; avisos publicados desde el admin aparecen al instante en la bandeja
+  del alumno (con contador de no leídos en el nav); panel de administrador con tablas
+  de fila + acciones (confirmar/cancelar/asistencia), modales de creación/edición
+  (clases, alumnos, accesos, avisos, actividades/grupos) y automatizaciones con
+  interruptores visuales — todo simulado vía toast, nada persiste ni se envía.
+- **Principio:** se siente como la aplicación semanal del club, no como una página que
+  se lee una vez; información corta, acciones grandes, navegación siempre visible.
+
 ## Fuera de este repo
 
 `../DESIGN.md` (repo `279studio`, en el directorio superior) describe el sistema
