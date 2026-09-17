@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RM Strength | Reservas de entrenamiento personal</title>
+<meta name="description" content="Reserva sesiones de entrenamiento personal en Mera-Serantes (Oleiros). App de reservas, seguimiento de objetivos y agenda. Demo conceptual de 279studio.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="279studio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="RM Strength | Reservas de entrenamiento personal">
+<meta property="og:description" content="App de reservas de entrenamiento personal en Mera-Serantes (Oleiros). Demo conceptual de 279studio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#viewRoot" class="skip-link">Saltar al contenido</a>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <span class="brand-badge" aria-hidden="true">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L44 16 L44 32 L24 44 L4 32 L4 16 Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M14 30 L24 14 L34 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <h1>RM Strength</h1>
+    <p class="login-sub">Accede a tu espacio de RM Strength</p>
+    <p class="login-sub login-sub-demo">Demo conceptual · Datos y acciones simuladas</p>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="li-email">Correo</label>
+        <input id="li-email" type="text" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="li-pass">Contraseña</label>
+        <input id="li-pass" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="login-error" id="loginError" hidden>Correo o contraseña incorrectos (demo).</p>
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Entrar</button>
+    </form>
+    <p class="login-demo-note">Acceso de demostración. No utilices credenciales reales.</p>
+    <div class="login-hint">
+      <p class="login-hint-title">Accesos de demostración</p>
+      <div class="login-quickfill">
+        <button type="button" class="btn btn-outline btn-sm" data-fill="cliente">Usar acceso cliente</button>
+        <button type="button" class="btn btn-outline btn-sm" data-fill="admin">Usar acceso centro (admin)</button>
+      </div>
+      <p><strong>Acceso cliente:</strong> cliente / cliente</p>
+      <p><strong>Acceso centro (admin):</strong> admin / admin</p>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell" id="appShell" hidden>
+  <aside class="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-brand">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L44 16 L44 32 L24 44 L4 32 L4 16 Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M14 30 L24 14 L34 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">RM Strength</span>
+        <span class="brand-sub" id="sidebarRoleLabel">279 · demo de app</span>
+      </span>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Vistas principales"></nav>
+
+    <p class="sidebar-note">Demo conceptual · Datos y acciones simuladas</p>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button type="button" class="topbar-back" id="topbarBack" hidden aria-label="Volver">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <h1 class="topbar-title" id="topbarTitle">Inicio</h1>
+      <span class="topbar-badge">Demo conceptual</span>
+      <button type="button" class="topbar-logout" id="topbarLogout" aria-label="Cerrar sesión">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 H6 a2 2 0 0 0 -2 2 v10 a2 2 0 0 0 2 2 h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12 H21 M18 9 L21 12 L18 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </header>
+
+    <main id="viewRoot" class="view-root" tabindex="-1"></main>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Navegación"></nav>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" id="modalBody" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
