@@ -245,7 +245,7 @@
   const mem = {
     clinic: CLINICS[0], role: "profesional", agendaScope: "sede", teeth: {}, selectedTooth: null, dentition: null, filter: "todos",
     shared: {}, signatures: {}, lab: {}, checkin: null, alta: null,
-    tags: {}, tagEdit: false, tagDraft: "", tagColor: "#3E7A74",
+    qr: {}, tags: {}, tagEdit: false, tagDraft: "", tagColor: "#3E7A74",
   };
 
   /* ----------------------------------------------------------- utilidades */
@@ -670,7 +670,7 @@
         <div class="seg" role="group" aria-label="Serie">
           <button aria-pressed="true">Control · oct 2026</button><button aria-pressed="false" data-demo="Cambio de serie visual en la demo">Inicial · mar 2026</button>
         </div>
-        <button class="btn" disabled title="Subida desactivada en la demo">Subir fotos (desactivado)</button>
+        <span class="actions" style="display:flex;gap:8px;flex-wrap:wrap">${isAdmin() ? `<button class="btn primary" disabled title="${RO}">${ICON.qr}Captura rápida por QR</button>` : `<a class="btn primary" href="#/paciente/${p.id}/fotos/qr">${ICON.qr}Captura rápida por QR</a>`}<button class="btn" disabled title="Subida desactivada en la demo">Subir fotos (desactivado)</button></span>
       </div>
       <div class="demo-note" style="margin-bottom:14px">${ICON.info}<span>Imágenes de relleno. <b>La demo no sube ni guarda archivos.</b> En la versión real, cada serie usa la misma plantilla de 8 tomas.</span></div>
       <div class="photo-grid">
@@ -685,6 +685,119 @@
         <input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después">
       </div>
       <div class="ba-dates"><span>Registro inicial</span><span>Ilustración esquemática, no fotografía real</span></div>`);
+  }
+
+  /* ------------------------------------------- 4b. captura rápida por QR */
+  /* Simulación en un solo dispositivo del concepto propio de 279studio:
+     la clínica genera un QR, el paciente lo abre en su móvil sin instalar
+     nada, hace 5 fotos guiadas y llegan solas a la ficha. No usa la cámara
+     ni sube nada: las "fotos" son las mismas ilustraciones de la demo. */
+  const QR_SHOTS = [
+    { id: "frontal", label: "Frontal", tip: "Cara de frente, mirada a cámara, labios en reposo.", img: () => faceFront(false) },
+    { id: "oclusal", label: "Oclusal", tip: "Muerde con los dientes juntos y separa los labios.", img: () => intraFront({ brackets: true }) },
+    { id: "superior", label: "Superior", tip: "Arcada de arriba vista desde abajo, con el espejo.", img: () => intraOcclusal(true) },
+    { id: "inferior", label: "Inferior", tip: "Arcada de abajo vista desde arriba, con el espejo.", img: () => intraOcclusal(false) },
+    { id: "lateral", label: "Lateral", tip: "Mordiendo, gira un poco la cabeza hacia la izquierda.", img: () => intraFront({ brackets: true, shift: -1 }) },
+  ];
+  /* Guías de encuadre (siluetas) superpuestas sobre la toma, en coordenadas 160×120. */
+  const QR_GUIDES = {
+    frontal: '<ellipse cx="80" cy="54" rx="25" ry="31"/><path d="M80 20 V92 M60 50 H100"/><path d="M52 120 Q56 96 80 94 Q104 96 108 120"/>',
+    oclusal: '<path d="M22 60 Q80 20 138 60 Q80 100 22 60Z"/><path d="M80 30 V90 M30 60 H130"/>',
+    superior: '<path d="M34 100 Q30 30 80 26 Q130 30 126 100"/><path d="M80 26 V100"/>',
+    inferior: '<path d="M34 20 Q30 90 80 94 Q130 90 126 20"/><path d="M80 20 V94"/>',
+    lateral: '<path d="M16 60 Q70 26 128 50 Q70 96 16 60Z"/><path d="M70 32 V88"/>',
+  };
+  const qrGuide = (id) => `<svg viewBox="0 0 160 120" class="qr-guide" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${QR_GUIDES[id]}</svg>`;
+  const QR_STEPS = ["QR en clínica", "Acceso del paciente", "Captura guiada", "Volcado en la ficha"];
+  const QR_TIMES = ["17:43", "17:43", "17:44", "17:44", "17:45"];
+
+  function viewFotosQR(p) {
+    if (isAdmin()) return patientFrame(p, "fotos", `<div class="card card-pad empty-state">${ICON.lock}<h2>Solo lectura</h2><p class="muted">El rol Administración no hace capturas de fotos.</p></div>`);
+    const q = (mem.qr[p.id] ||= { step: 0, shots: 0 });
+    const done = q.shots;
+    const cur = QR_SHOTS[Math.min(done, 4)];
+    const first = p.name.split(" ")[0];
+    const stepper = `<ol class="qr-steps">${QR_STEPS.map((l, i) => `<li class="${i < q.step ? "done" : i === q.step ? "cur" : ""}"><span class="sdot">${i < q.step ? "✓" : i + 1}</span>${l}</li>`).join("")}</ol>`;
+
+    /* Lado clínica (ordenador) */
+    const slotList = `<ul class="qr-slots">${QR_SHOTS.map((sh, i) => `<li class="${i < done ? "in" : ""}">
+        <div class="qr-thumb">${i < done ? sh.img() : `<span class="small muted">${sh.label}</span>`}</div>
+        <div><b>${sh.label}</b><div class="small muted">${i < done ? `Recibida ${QR_TIMES[i]}` : "Pendiente"}</div></div>
+      </li>`).join("")}</ul>`;
+    let desk;
+    if (q.step === 0) {
+      desk = `<div class="qr-desk-body">
+          <div class="qr-box">${fakeQR()}</div>
+          <div>
+            <div class="eyebrow">Nuevo caso · ${esc(p.name)} · ${p.hc}</div>
+            <h2 style="margin:4px 0 8px">Escanee para capturar fotos</h2>
+            <p class="muted small">El paciente lo escanea con la cámara de su móvil y hace las 5 fotos básicas guiadas. Caduca en 10 minutos y solo sirve para este paciente.</p>
+            <div class="qr-wait"><span class="pulse"></span>Esperando escaneo…</div>
+            <button class="btn primary" data-qr-next style="margin-top:14px">Simular escaneo con el móvil ›</button>
+          </div>
+        </div>`;
+    } else if (q.step === 1) {
+      desk = `<div class="qr-desk-body">
+          <div class="qr-box linked-ok">${ICON.qr}<b>Móvil conectado</b><span class="small muted">17:43</span></div>
+          <div>
+            <div class="eyebrow">Nuevo caso · ${esc(p.name)}</div>
+            <h2 style="margin:4px 0 8px">El paciente ya tiene acceso</h2>
+            <p class="muted small">No ha tenido que instalar ninguna app: la captura se abre en el navegador del móvil. Las fotos irán llegando aquí.</p>
+            <button class="btn primary" data-qr-next style="margin-top:14px">Continuar en el móvil ›</button>
+          </div>
+        </div>`;
+    } else if (q.step === 2) {
+      desk = `<div class="eyebrow" style="margin-bottom:10px">Llegando en directo · ${done}/5</div>${slotList}`;
+    } else {
+      desk = `<div class="section-title"><div><div class="eyebrow">Fotos clínicas · ${esc(p.name)}</div><h2>Nuevas por QR · hoy 17:45</h2></div>
+          <span class="actions" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-demo="Guardado simulado: la demo no guarda nada">Guardar en la ficha</button><a class="btn" href="#/paciente/${p.id}/fotos">Ver fotos clínicas</a></span></div>
+        <div class="photo-grid">${QR_SHOTS.map((sh, i) => `<figure class="photo"><div class="ph new-ph">${sh.img()}<span class="new-badge">Nueva</span></div><figcaption><span>${sh.label}</span><span class="muted">${QR_TIMES[i]}</span></figcaption></figure>`).join("")}</div>
+        <p class="small muted" style="margin-top:10px">Han llegado solas a la ficha, con el nombre de cada toma. Nadie ha tenido que pasarlas del móvil al ordenador.</p>
+        <button class="link-btn" data-qr-reset style="margin-top:8px">Repetir la simulación</button>`;
+    }
+
+    /* Lado paciente (móvil) */
+    let screen;
+    if (q.step === 0) {
+      screen = `<div class="ph-cam idle"><div class="cam-view"><div class="cam-qr">${fakeQR(21)}</div><span class="cam-corner"></span></div>
+          <div class="cam-hint">Apunta la cámara al código de la pantalla de la clínica</div></div>`;
+    } else if (q.step === 1) {
+      screen = `<div class="ph-access">
+          <div class="ok-dot">✓</div>
+          <div class="phone-title">Acceso concedido</div>
+          <p>Hola, familia de ${esc(first)}. ${esc(mem.clinic.name.split(" · ")[0])} te pide 5 fotos para su ficha.</p>
+          <ul><li>Sin instalar nada</li><li>Unos 2 minutos</li><li>Las fotos no se quedan en tu galería</li></ul>
+          <button class="p-btn" data-qr-next>Empezar</button>
+        </div>`;
+    } else if (q.step === 2) {
+      screen = `<div class="ph-cam">
+          <div class="cam-top"><span>Foto ${done + 1} de 5</span><b>${cur.label}</b></div>
+          <div class="cam-view shot">${cur.img()}${qrGuide(cur.id)}<span class="cam-tag">Encaja la silueta</span></div>
+          <div class="cam-hint">${cur.tip}</div>
+          <div class="cam-bar">
+            <div class="cam-thumbs">${QR_SHOTS.map((sh, i) => `<span class="${i < done ? "in" : i === done ? "cur" : ""}">${i < done ? "✓" : ""}</span>`).join("")}</div>
+            <button class="shutter" data-qr-shot aria-label="Hacer foto ${cur.label} (simulado)"></button>
+            <span class="cam-count num">${done}/5</span>
+          </div>
+        </div>`;
+    } else {
+      screen = `<div class="ph-access">
+          <div class="ok-dot">✓</div>
+          <div class="phone-title">¡Listo!</div>
+          <p>Las 5 fotos ya están en la clínica. Puedes cerrar esta página.</p>
+          <div class="done-thumbs">${QR_SHOTS.map((sh) => `<span>${sh.img()}</span>`).join("")}</div>
+        </div>`;
+    }
+
+    return patientFrame(p, "fotos", `
+      <a class="back" href="#/paciente/${p.id}/fotos" style="margin-top:-4px">‹ Volver a fotos clínicas</a>
+      <div class="agenda-bar"><div><h2>Captura rápida por QR</h2><p class="small muted">El paciente hace las fotos básicas con su móvil y llegan solas a la ficha.</p></div></div>
+      <div class="demo-note" style="margin-bottom:14px">${ICON.info}<span><b>Demostración del concepto, no el flujo final.</b> Todo ocurre en esta pantalla: no se usa la cámara, no se escanea nada y no se sube ninguna foto. En la versión real, el QR se abriría en el móvil del paciente.</span></div>
+      ${stepper}
+      <div class="qr-stage">
+        <section class="card card-pad qr-desk"><div class="device-label">${ICON.door}Ordenador de la clínica</div>${desk}</section>
+        <div class="qr-phone-col"><div class="device-label">Móvil del paciente</div><div class="phone qr-phone"><div class="phone-in">${screen}</div></div></div>
+      </div>`);
   }
 
   /* -------------------------------------------------------- 5. agenda */
@@ -1576,6 +1689,7 @@
       if (mem._pid !== p.id) { mem._pid = p.id; mem.dentition = null; mem.selectedTooth = null; mem.tagEdit = false; mem.tagDraft = ""; }
       if (!canSee(p)) html = viewNoAccess(p);
       else if (tab === "documentos") html = viewDocumentos(p, parts[3]);
+      else if (tab === "fotos" && parts[3] === "qr") html = viewFotosQR(p);
       else html = ({ fotos: viewFotos, odontograma: viewOdontograma, cefalometria: viewCefalometria, presupuesto: viewPresupuesto, laboratorio: viewLaboratorio }[tab] || viewFicha)(p);
     } else html = viewLogin();
     $app.innerHTML = html;
@@ -1668,6 +1782,15 @@
       rerender();
       return;
     }
+    if (t.closest("[data-qr-next]")) { const q = mem.qr[mem._pid]; q.step = Math.min(3, q.step + 1); rerender(); return; }
+    if (t.closest("[data-qr-shot]")) {
+      const q = mem.qr[mem._pid];
+      q.shots += 1;
+      if (q.shots >= 5) q.step = 3;
+      rerender();
+      return;
+    }
+    if (t.closest("[data-qr-reset]")) { mem.qr[mem._pid] = { step: 0, shots: 0 }; rerender(); return; }
     const am = t.closest("[data-alta-mode]");
     if (am) { mem.alta.mode = am.dataset.altaMode; rerender(); return; }
     if (t.closest("[data-alta-step]")) { mem.alta.step = Math.min(4, mem.alta.step + (mem.alta.step === 2 ? 2 : 1)); rerender(); return; }
