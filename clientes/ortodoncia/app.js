@@ -142,6 +142,28 @@
   ];
 
   /* Laboratorio: albaranes con 3 pasos (Enviado → Recepcionado → En clínica). */
+  /* Características de trato: las pone el profesional a mano. No son alertas
+     médicas ni algo que el sistema detecte o deduzca. Set orientativo. */
+  const TAGS = {
+    ansioso: { label: "Ansioso/a", short: "Ansioso/a", color: "#C4702A" },
+    colaborador: { label: "Colaborador/a", short: "Colaborador/a", color: "#3D8A5A" },
+    miedo: { label: "Miedo a agujas/instrumental", short: "Miedo a agujas", color: "#B8473A" },
+    tiempo: { label: "Necesita más tiempo en cita", short: "Más tiempo", color: "#3B6FA8" },
+    cumplimiento: { label: "Buen cumplimiento del tratamiento", short: "Buen cumplimiento", color: "#7FAE5C" },
+    padres: { label: "Requiere refuerzo de comunicación con padres", short: "Refuerzo padres", color: "#7A5BA6" },
+  };
+  /* Colores para la etiqueta libre. */
+  const TAG_FREE_COLORS = ["#3E7A74", "#B0578D", "#B08A22", "#5E6B69", "#2F7FA0", "#8A5A3C"];
+  const PATIENT_TAGS = {
+    demo: ["ansioso", "miedo", "padres"],
+    lucia: ["tiempo", "colaborador"],
+    mateo: ["cumplimiento", "padres"],
+    ana: ["colaborador", "cumplimiento", { label: "Prefiere citas de tarde", color: "#3E7A74" }],
+    carlos: ["ansioso", "tiempo"],
+    sofia: ["colaborador", "miedo"],
+    hugo: ["ansioso", "tiempo", "padres"],
+  };
+
   const LAB_STEPS = ["Enviado", "Recepcionado", "En clínica"];
   const LAB = {
     demo: [
@@ -223,6 +245,7 @@
   const mem = {
     clinic: CLINICS[0], role: "profesional", agendaScope: "sede", teeth: {}, selectedTooth: null, dentition: null, filter: "todos",
     shared: {}, signatures: {}, lab: {}, checkin: null, alta: null,
+    tags: {}, tagEdit: false, tagDraft: "", tagColor: "#3E7A74",
   };
 
   /* ----------------------------------------------------------- utilidades */
@@ -301,6 +324,45 @@
   const visiblePatients = () => (isAdmin() ? PATIENTS : PATIENTS.filter((p) => p.doctor === DOCTOR));
   const canSee = (p) => isAdmin() || p.doctor === DOCTOR;
 
+  /* Etiquetas del paciente: las de ejemplo o las cambiadas en esta sesión. */
+  function tagsOf(p) {
+    if (!mem.tags[p.id]) mem.tags[p.id] = (PATIENT_TAGS[p.id] || []).map((t) => (typeof t === "string" ? { id: t } : { ...t }));
+    return mem.tags[p.id].map((t) => (t.id ? { ...TAGS[t.id], ...t } : t));
+  }
+  const tagChip = (t, short) => `<span class="ptag" style="--tc:${t.color}" title="${esc(t.label)}"><i></i>${esc(short ? t.short || t.label : t.label)}</span>`;
+  function tagChipsCompact(p) {
+    const list = tagsOf(p);
+    const shown = list.slice(0, 2).map((t) => tagChip(t, true)).join("");
+    return list.length ? `<span class="ptags">${shown}${list.length > 2 ? `<span class="ptag more" title="${esc(list.slice(2).map((t) => t.label).join(", "))}">+${list.length - 2}</span>` : ""}</span>` : "";
+  }
+  function traitsBlock(p) {
+    const list = tagsOf(p);
+    const chips = list.length ? list.map((t) => tagChip(t)).join("") : '<span class="small muted">Sin características añadidas</span>';
+    const editBtn = isAdmin()
+      ? `<button class="link-btn" disabled title="${RO}">Editar</button>`
+      : `<button class="link-btn" data-tag-edit aria-expanded="${mem.tagEdit}">${mem.tagEdit ? "Cerrar" : "Editar"}</button>`;
+    const active = new Set(mem.tags[p.id].filter((t) => t.id).map((t) => t.id));
+    const editor = mem.tagEdit && !isAdmin() ? `<div class="tag-editor">
+        <div class="eyebrow">Marca o desmarca</div>
+        <div class="tag-opts">${Object.entries(TAGS).map(([id, t]) => `<button class="tag-opt" data-tag-toggle="${id}" aria-pressed="${active.has(id)}" style="--tc:${t.color}"><i></i>${t.label}</button>`).join("")}</div>
+        ${mem.tags[p.id].some((t) => !t.id) ? `<div class="eyebrow" style="margin-top:12px">Etiquetas libres</div><div class="tag-opts">${mem.tags[p.id].map((t, i) => (t.id ? "" : `<span class="tag-opt on" style="--tc:${t.color}"><i></i>${esc(t.label)}<button class="tag-x" data-tag-del="${i}" aria-label="Quitar ${esc(t.label)}">×</button></span>`)).join("")}</div>` : ""}
+        <div class="eyebrow" style="margin-top:12px">Etiqueta libre</div>
+        <div class="tag-free">
+          <input id="tag-draft" maxlength="40" placeholder="Ej.: prefiere citas de tarde" value="${esc(mem.tagDraft)}" aria-label="Texto de la etiqueta libre">
+          <div class="swatches" role="group" aria-label="Color">${TAG_FREE_COLORS.map((c) => `<button class="swatch" data-tag-color="${c}" aria-pressed="${mem.tagColor === c}" style="background:${c}" aria-label="Color ${c}"></button>`).join("")}</div>
+          <button class="btn sm primary" data-tag-add>Añadir</button>
+        </div>
+        <p class="small muted" style="margin-top:8px">Solo en esta sesión: se pierde al recargar.</p>
+      </div>` : "";
+    return `<div class="traits" aria-label="Características del paciente">
+        <span class="traits-h">Características</span>
+        <div class="traits-chips">${chips}</div>
+        ${editBtn}
+      </div>
+      <p class="traits-note">Notas de trato que añade el profesional a mano. El sistema no las detecta ni las deduce; no son alertas médicas.</p>
+      ${editor}`;
+  }
+
   /* ---------------------------------------------------------------- shell */
   function shell(section, inner, editable = false) {
     const c = mem.clinic, u = me();
@@ -377,18 +439,18 @@
       <div class="filters" role="group" aria-label="Filtrar por estado" style="margin-bottom:10px">
         ${filters.map(([k, label, n]) => `<button class="filter" data-filter="${k}" aria-pressed="${mem.filter === k}">${label} <span class="c">${n}</span></button>`).join("")}
       </div>
-      <p class="small muted" style="margin-bottom:14px">${scopeNote}</p>
+      <p class="small muted" style="margin-bottom:14px">${scopeNote} Las etiquetas de color son características de trato que añade el profesional.</p>
       <div class="card ptable-wrap"><table class="ptable">
         <thead><tr><th>Paciente</th><th>Estado</th>${isAdmin() ? "<th>Profesional</th>" : ""}<th>Próxima cita</th><th>Alertas</th><th>Última visita</th></tr></thead>
         <tbody>${list.map((p) => `<tr data-go="#/paciente/${p.id}/ficha">
-          <td><div class="pname"><span class="avatar">${p.initials}</span><div><div class="n">${esc(p.name)}</div><div class="s">${p.age} años · ${p.hc}</div></div></div></td>
+          <td><div class="pname"><span class="avatar">${p.initials}</span><div><div class="n">${esc(p.name)}</div><div class="s">${p.age} años · ${p.hc}</div>${tagChipsCompact(p)}</div></div></td>
           <td><span class="chip st-${p.state}">${STATES[p.state]}</span></td>
           ${isAdmin() ? `<td>${esc(p.doctor)}</td>` : ""}
           <td class="num">${p.next}</td><td>${alertCell(p)}</td><td class="muted">${p.last}</td>
         </tr>`).join("")}</tbody>
       </table></div>
       <div class="plist-cards">${list.map((p) => `<div class="card pcard" data-go="#/paciente/${p.id}/ficha">
-        <div class="pname"><span class="avatar">${p.initials}</span><div><div class="n">${esc(p.name)}</div><div class="s">${p.age} años · ${p.hc}${isAdmin() ? ` · ${esc(p.doctor)}` : ""}</div></div></div>
+        <div class="pname"><span class="avatar">${p.initials}</span><div><div class="n">${esc(p.name)}</div><div class="s">${p.age} años · ${p.hc}${isAdmin() ? ` · ${esc(p.doctor)}` : ""}</div>${tagChipsCompact(p)}</div></div>
         <div class="row"><span class="chip st-${p.state}">${STATES[p.state]}</span><span class="small muted">Próxima: ${p.next}</span></div>
         ${p.allergies.length ? `<div>${alertCell(p)}</div>` : ""}
       </div>`).join("")}</div>`);
@@ -403,7 +465,10 @@
     ];
     return shell("pacientes", `
       <a class="back" href="#/pacientes">‹ Pacientes</a>
-      ${alerts.length ? `<div class="alerts" aria-label="Alertas médicas">${alerts.join("")}</div>` : ""}
+      <div class="top-block">
+        ${alerts.length ? `<div class="alerts-row"><span class="traits-h">Alertas médicas</span><div class="alerts" aria-label="Alertas médicas">${alerts.join("")}</div></div>` : ""}
+        ${traitsBlock(p)}
+      </div>
       <div class="phead">
         <span class="avatar">${p.initials}</span>
         <div class="info"><h1>${esc(p.name)}</h1>
@@ -1508,7 +1573,7 @@
     else if (parts[0] === "paciente") {
       const p = patient(parts[1]);
       const tab = parts[2] || "ficha";
-      if (mem._pid !== p.id) { mem._pid = p.id; mem.dentition = null; mem.selectedTooth = null; }
+      if (mem._pid !== p.id) { mem._pid = p.id; mem.dentition = null; mem.selectedTooth = null; mem.tagEdit = false; mem.tagDraft = ""; }
       if (!canSee(p)) html = viewNoAccess(p);
       else if (tab === "documentos") html = viewDocumentos(p, parts[3]);
       else html = ({ fotos: viewFotos, odontograma: viewOdontograma, cefalometria: viewCefalometria, presupuesto: viewPresupuesto, laboratorio: viewLaboratorio }[tab] || viewFicha)(p);
@@ -1582,6 +1647,27 @@
     }
     const arrive = t.closest("[data-ck-arrive]");
     if (arrive) { const c = mem.checkin[Number(arrive.dataset.ckArrive)]; c.phase = "llegada"; c.t.llegada = NOW; rerender(); return; }
+    if (t.closest("[data-tag-edit]")) { mem.tagEdit = !mem.tagEdit; rerender(); return; }
+    const tt = t.closest("[data-tag-toggle]");
+    if (tt) {
+      const list = mem.tags[mem._pid], id = tt.dataset.tagToggle;
+      const i = list.findIndex((x) => x.id === id);
+      if (i >= 0) list.splice(i, 1); else list.push({ id });
+      rerender();
+      return;
+    }
+    const td = t.closest("[data-tag-del]");
+    if (td) { mem.tags[mem._pid].splice(Number(td.dataset.tagDel), 1); rerender(); return; }
+    const tc = t.closest("[data-tag-color]");
+    if (tc) { mem.tagColor = tc.dataset.tagColor; rerender(); return; }
+    if (t.closest("[data-tag-add]")) {
+      const label = mem.tagDraft.trim();
+      if (!label) { toast("Escribe el texto de la etiqueta"); return; }
+      mem.tags[mem._pid].push({ label, color: mem.tagColor });
+      mem.tagDraft = "";
+      rerender();
+      return;
+    }
     const am = t.closest("[data-alta-mode]");
     if (am) { mem.alta.mode = am.dataset.altaMode; rerender(); return; }
     if (t.closest("[data-alta-step]")) { mem.alta.step = Math.min(4, mem.alta.step + (mem.alta.step === 2 ? 2 : 1)); rerender(); return; }
@@ -1591,6 +1677,7 @@
     if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-go]")) { e.preventDefault(); e.target.click(); }
   });
   $app.addEventListener("input", (e) => {
+    if (e.target.id === "tag-draft") mem.tagDraft = e.target.value;
     if (e.target.matches("#ba input")) document.getElementById("ba").style.setProperty("--pos", e.target.value + "%");
   });
 
