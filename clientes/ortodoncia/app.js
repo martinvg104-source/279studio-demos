@@ -614,61 +614,256 @@
   }
 
   /* -------------------------------------------------------- 8. cefalometría */
-  const CEPH_PTS = {
-    S: [250, 250], N: [452, 228], Or: [402, 286], Po: [176, 292], Ar: [206, 338],
-    ANS: [474, 368], PNS: [302, 380], A: [458, 396], B: [441, 500], Pog: [448, 546],
-    Gn: [440, 566], Me: [418, 578], Go: [252, 500],
-  };
-  const CEPH = [
-    { title: "Steiner", rows: [["SNA", 82.0, "°", 82, 2], ["SNB", 78.5, "°", 80, 2], ["ANB", 3.5, "°", 2, 2], ["SN · GoGn", 34.0, "°", 32, 5]] },
-    { title: "Ricketts", rows: [["Eje facial", 88.0, "°", 90, 3.5], ["Profundidad facial", 86.5, "°", 87, 3], ["Plano mandibular", 27.0, "°", 26, 4.5], ["Convexidad", 3.0, " mm", 2, 2]] },
-    { title: "Jarabak", rows: [["Suma de Björk", 398.0, "°", 396, 6], ["Ángulo goníaco", 126.0, "°", 130, 7], ["S-Go / N-Me", 63.0, " %", 63.5, 1.5]] },
+  /* Radiografía de referencia: ÚNICO sitio donde se referencia la imagen.
+     Para sustituirla, cambia src y las dimensiones (px reales del archivo).
+     PENDIENTE: verificar licencia antes de uso público/comercial fuera de esta
+     demo interna. Origen no verificado (búsqueda web). */
+  const CEPH_IMAGE = { src: "assets/cefalometria-radiografia.jpg", w: 550, h: 577 };
+
+  /* Orden de colocación y descripción de cada punto. */
+  const CEPH_LANDMARKS = [
+    ["S", "Silla", "Centro geométrico de la silla turca"],
+    ["N", "Nasion", "Punto más anterior de la sutura frontonasal"],
+    ["Or", "Orbitario", "Punto más inferior del reborde de la órbita"],
+    ["Po", "Porion", "Punto más superior del conducto auditivo externo"],
+    ["Ar", "Articular", "Cruce del borde posterior de la rama con la base del cráneo"],
+    ["ANS", "Espina nasal anterior", "Punta de la espina nasal anterior"],
+    ["PNS", "Espina nasal posterior", "Extremo posterior del paladar duro"],
+    ["A", "Punto A", "Punto más profundo de la concavidad anterior del maxilar"],
+    ["B", "Punto B", "Punto más profundo de la concavidad anterior de la mandíbula"],
+    ["Pog", "Pogonion", "Punto más anterior de la sínfisis"],
+    ["Gn", "Gnation", "Punto entre pogonion y mentón sobre el contorno de la sínfisis"],
+    ["Me", "Mentón", "Punto más inferior de la sínfisis"],
+    ["Go", "Gonion", "Punto más inferior y posterior del ángulo mandibular"],
   ];
-  function cephSVG() {
-    const P = CEPH_PTS;
-    const ln = (a, b, dash) => `<line x1="${P[a][0]}" y1="${P[a][1]}" x2="${P[b][0]}" y2="${P[b][1]}" stroke="#6FC2B6" stroke-width="1.4" ${dash ? 'stroke-dasharray="5 4"' : ""} opacity=".85"/>`;
-    const pt = (k) => `<g><circle cx="${P[k][0]}" cy="${P[k][1]}" r="7" fill="none" stroke="#9EE3D8" stroke-width="1.2" opacity=".6"/><circle cx="${P[k][0]}" cy="${P[k][1]}" r="2.8" fill="#E8FFFB"/><text class="pt-label" x="${P[k][0] + 10}" y="${P[k][1] - 8}">${k}</text></g>`;
-    return `<svg viewBox="40 20 560 620" role="img" aria-label="Radiografía lateral esquemática con puntos cefalométricos de ejemplo">
-      <defs>
-        <radialGradient id="glow" cx="45%" cy="45%" r="65%"><stop offset="0" stop-color="#2B3533"/><stop offset="1" stop-color="#0E1413"/></radialGradient>
-        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0"/></filter>
-        <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
-      </defs>
-      <rect x="40" y="20" width="560" height="620" fill="url(#glow)"/>
-      <g fill="none" stroke="#DCE6E3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M452 228 Q470 180 446 128 Q400 58 300 56 Q180 58 128 150 Q96 220 112 300 Q126 360 176 392 L214 420" stroke-width="10" opacity=".16" filter="url(#soft)"/>
-        <path d="M452 228 Q470 180 446 128 Q400 58 300 56 Q180 58 128 150 Q96 220 112 300 Q126 360 176 392" stroke-width="2" opacity=".45"/>
-        <circle cx="400" cy="258" r="30" stroke-width="1.5" opacity=".35"/>
-        <path d="M232 244 q4 18 18 18 q14 0 18 -18" stroke-width="2" opacity=".55"/>
-        <path d="M302 380 L474 368 L458 396 Q466 420 470 452" stroke-width="2.2" opacity=".5"/>
-        <path d="M206 338 Q214 420 252 500 Q330 560 418 578 Q446 572 448 546 Q446 520 441 500 Q446 480 460 458" stroke-width="10" opacity=".14" filter="url(#soft)"/>
-        <path d="M206 338 Q214 420 252 500 Q330 560 418 578 Q446 572 448 546 Q446 520 441 500 Q446 480 460 458" stroke-width="2.2" opacity=".55"/>
-        <path d="M456 400 L472 456 M446 494 L464 452" stroke-width="5" opacity=".45"/>
-        <rect x="330" y="420" width="44" height="26" rx="6" stroke-width="1.5" opacity=".3"/>
-        <rect x="330" y="452" width="44" height="26" rx="6" stroke-width="1.5" opacity=".3"/>
-        <path d="M452 228 Q500 262 540 330 Q548 348 530 356 L494 374 Q510 392 506 410 Q496 426 490 440 Q506 456 500 474 Q486 494 472 502 Q488 530 482 562 Q468 604 432 612 Q380 612 340 594" stroke-width="1.4" opacity=".28"/>
-      </g>
-      ${ln("S", "N")}${ln("N", "A")}${ln("N", "B")}${ln("Po", "Or", true)}${ln("Go", "Me")}${ln("S", "Go", true)}${ln("N", "Me", true)}${ln("ANS", "PNS")}${ln("N", "Pog", true)}
-      ${Object.keys(P).map(pt).join("")}
-      <rect x="40" y="20" width="560" height="620" filter="url(#grain)"/>
-    </svg>`;
+  /* Posiciones aproximadas sobre CEPH_IMAGE para el botón "puntos de ejemplo".
+     Si se cambia la imagen, hay que rehacerlas. */
+  const CEPH_EXAMPLE = {
+    S: [240, 180], N: [450, 176], Or: [385, 247], Po: [163, 236], Ar: [202, 262],
+    ANS: [456, 300], PNS: [298, 305], A: [432, 325], B: [393, 447], Pog: [409, 490],
+    Gn: [402, 504], Me: [390, 510], Go: [250, 432],
+  };
+  /* Sin regla de calibración: los mm se estiman suponiendo S–N ≈ 70 mm. */
+  const CEPH_SN_MM = 70;
+  const CEPH_LINES = [
+    ["S", "N"], ["N", "A"], ["N", "B"], ["Po", "Or", 1], ["Go", "Me"], ["ANS", "PNS"],
+    ["N", "Pog", 1], ["S", "Ar"], ["Ar", "Go"], ["S", "Go", 1], ["N", "Me", 1],
+  ];
+
+  const cephState = () => (mem.ceph ||= { pts: {}, current: "S", order: [] });
+
+  /* Geometría básica en coordenadas de imagen (y hacia abajo). */
+  const vec = (a, b) => [b[0] - a[0], b[1] - a[1]];
+  const len = (v) => Math.hypot(v[0], v[1]);
+  const angBetween = (u, v) => (Math.acos(Math.max(-1, Math.min(1, (u[0] * v[0] + u[1] * v[1]) / (len(u) * len(v))))) * 180) / Math.PI;
+  const angAt = (P, vtx, a, b) => angBetween(vec(P[vtx], P[a]), vec(P[vtx], P[b]));
+  function signedDistMm(P, pt, l1, l2) {
+    const d = vec(P[l1], P[l2]), w = vec(P[l1], P[pt]);
+    let dist = (d[0] * w[1] - d[1] * w[0]) / len(d);
+    /* Positivo si el punto queda por delante del plano (hacia la cara: Po → Or). */
+    const ant = vec(P.Po, P.Or);
+    const nrm = [-d[1] / len(d), d[0] / len(d)];
+    if (nrm[0] * ant[0] + nrm[1] * ant[1] < 0) dist = -dist;
+    return dist * (CEPH_SN_MM / len(vec(P.S, P.N)));
   }
-  function viewCefalometria(p) {
-    const row = ([name, v, u, norm, sd]) => {
+
+  /* [nombre, puntos necesarios, cálculo, unidad, norma, desviación, esMm] */
+  const CEPH_ANALYSES = [
+    { title: "Steiner", rows: [
+      ["SNA", ["S", "N", "A"], (P) => angAt(P, "N", "S", "A"), "°", 82, 2],
+      ["SNB", ["S", "N", "B"], (P) => angAt(P, "N", "S", "B"), "°", 80, 2],
+      ["ANB", ["S", "N", "A", "B"], (P) => angAt(P, "N", "S", "A") - angAt(P, "N", "S", "B"), "°", 2, 2],
+      ["SN · GoGn", ["S", "N", "Go", "Gn"], (P) => angBetween(vec(P.N, P.S), vec(P.Gn, P.Go)), "°", 32, 5],
+    ] },
+    { title: "Ricketts", rows: [
+      ["Profundidad facial", ["Po", "Or", "N", "Pog"], (P) => angBetween(vec(P.Or, P.Po), vec(P.N, P.Pog)), "°", 87, 3],
+      ["Plano mandibular", ["Po", "Or", "Go", "Me"], (P) => angBetween(vec(P.Or, P.Po), vec(P.Me, P.Go)), "°", 26, 4.5],
+      ["Convexidad", ["A", "N", "Pog", "Po", "Or", "S"], (P) => signedDistMm(P, "A", "N", "Pog"), " mm", 2, 2, true],
+      ["Eje facial", ["Ba", "Pt"], null, "°", 90, 3.5],
+    ] },
+    { title: "Jarabak", rows: [
+      ["Ángulo de la silla", ["N", "S", "Ar"], (P) => angAt(P, "S", "N", "Ar"), "°", 123, 5],
+      ["Ángulo articular", ["S", "Ar", "Go"], (P) => angAt(P, "Ar", "S", "Go"), "°", 143, 6],
+      ["Ángulo goníaco", ["Ar", "Go", "Me"], (P) => angAt(P, "Go", "Ar", "Me"), "°", 130, 7],
+      ["Suma de Björk", ["N", "S", "Ar", "Go", "Me"], (P) => angAt(P, "S", "N", "Ar") + angAt(P, "Ar", "S", "Go") + angAt(P, "Go", "Ar", "Me"), "°", 396, 6],
+      ["S-Go / N-Me", ["S", "Go", "N", "Me"], (P) => (len(vec(P.S, P.Go)) / len(vec(P.N, P.Me))) * 100, " %", 63.5, 1.5],
+    ] },
+  ];
+
+  function cephResultsHTML() {
+    const P = cephState().pts;
+    const row = ([name, req, fn, u, norm, sd, isMm]) => {
+      const head = `<span>${name}${isMm ? ' <span class="approx">aprox.</span>' : ""}</span>`;
+      if (!fn) {
+        return `<div class="rrow na">${head}<span class="v">—</span><span class="nrm">${norm} ± ${sd}</span>
+          <div class="miss">Necesita basion (Ba) y pterigoideo (Pt), que no se marcan en esta demo.</div></div>`;
+      }
+      const missing = req.filter((k) => !P[k]);
+      if (missing.length) {
+        return `<div class="rrow na">${head}<span class="v">—</span><span class="nrm">${norm} ± ${sd}</span>
+          <div class="miss">Faltan: ${missing.join(", ")}</div></div>`;
+      }
+      const v = fn(P);
       const lo = norm - sd * 3, hi = norm + sd * 3, pct = (x) => Math.min(100, Math.max(0, ((x - lo) / (hi - lo)) * 100));
-      return `<div class="rrow"><span>${name}</span><span class="v">${v.toFixed(1)}${u}</span><span class="nrm">${norm} ± ${sd}</span>
+      return `<div class="rrow">${head}<span class="v">${isMm ? "≈ " : ""}${v.toFixed(1)}${u}</span><span class="nrm">${norm} ± ${sd}</span>
         <div class="gauge"><span class="band" style="left:${pct(norm - sd)}%;right:${100 - pct(norm + sd)}%"></span><span class="mk" style="left:${pct(v)}%"></span></div></div>`;
     };
+    return CEPH_ANALYSES.map((b) => `<section class="card card-pad res-block"><h3>${b.title}<small>valor · norma</small></h3>${b.rows.map(row).join("")}</section>`).join("");
+  }
+
+  function cephOverlaySVG() {
+    const st = cephState(), P = st.pts;
+    const lines = CEPH_LINES.filter(([a, b]) => P[a] && P[b]).map(([a, b, dash]) =>
+      `<line x1="${P[a][0]}" y1="${P[a][1]}" x2="${P[b][0]}" y2="${P[b][1]}" class="cl ${dash ? "dash" : ""}"/>`).join("");
+    const pts = CEPH_LANDMARKS.filter(([k]) => P[k]).map(([k, name]) => {
+      const [x, y] = P[k];
+      const left = x > CEPH_IMAGE.w - 60 || k === "Me";
+      /* Gn y Me quedan muy juntos al Pog: sus etiquetas van debajo. */
+      const ly = k === "Gn" || k === "Me" ? y + 20 : y - 9;
+      return `<g class="cp ${st.drag === k ? "drag" : ""}" data-pt="${k}" tabindex="0" role="button" aria-label="${name} (${k}). Arrastra o usa las flechas para ajustar">
+        <circle cx="${x}" cy="${y}" r="13" class="hit"/>
+        <circle cx="${x}" cy="${y}" r="7" class="ring"/>
+        <circle cx="${x}" cy="${y}" r="2.6" class="dot"/>
+        <text x="${left ? x - 11 : x + 11}" y="${ly}" text-anchor="${left ? "end" : "start"}" class="pt-label">${k}</text>
+      </g>`;
+    }).join("");
+    return lines + pts;
+  }
+
+  function cephPromptHTML() {
+    const st = cephState();
+    const placed = Object.keys(st.pts).length;
+    const cur = CEPH_LANDMARKS.find(([k]) => k === st.current);
+    const head = cur
+      ? `<div class="eyebrow">${st.pts[cur[0]] ? "Recolocar" : "Siguiente punto"} · ${placed}/${CEPH_LANDMARKS.length}</div>
+         <div class="ceph-next"><b>${cur[0]}</b> ${cur[1]}</div><div class="small muted">${cur[2]}. Toca la radiografía para colocarlo.</div>`
+      : `<div class="eyebrow">${placed}/${CEPH_LANDMARKS.length} puntos</div><div class="ceph-next">Todos los puntos colocados</div>
+         <div class="small muted">Arrastra cualquier punto para ajustarlo, o toca uno de la lista para recolocarlo.</div>`;
+    const chips = CEPH_LANDMARKS.map(([k, name]) =>
+      `<button class="pchip ${st.pts[k] ? "done" : ""} ${st.current === k ? "cur" : ""}" data-ceph-pick="${k}" title="${name}" aria-pressed="${st.current === k}">${k}</button>`).join("");
+    return `${head}<div class="pchips">${chips}</div>`;
+  }
+
+  function cephRefresh(parts = ["overlay", "prompt", "results"]) {
+    const root = document.getElementById("ceph");
+    if (!root) return;
+    if (parts.includes("overlay")) root.querySelector("#ceph-overlay").innerHTML = cephOverlaySVG();
+    if (parts.includes("prompt")) root.querySelector("#ceph-prompt").innerHTML = cephPromptHTML();
+    if (parts.includes("results")) root.querySelector("#ceph-results").innerHTML = cephResultsHTML();
+  }
+
+  function cephNextPending(after) {
+    const P = cephState().pts;
+    const keys = CEPH_LANDMARKS.map(([k]) => k);
+    const start = Math.max(0, keys.indexOf(after));
+    for (let i = 1; i <= keys.length; i++) {
+      const k = keys[(start + i) % keys.length];
+      if (!P[k]) return k;
+    }
+    return null;
+  }
+
+  function cephMount() {
+    const root = document.getElementById("ceph");
+    if (!root) return;
+    const svg = root.querySelector("svg.ceph-svg");
+    const st = cephState();
+    const toImg = (e) => {
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX; pt.y = e.clientY;
+      const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      return [Math.round(Math.max(0, Math.min(CEPH_IMAGE.w, p.x))), Math.round(Math.max(0, Math.min(CEPH_IMAGE.h, p.y)))];
+    };
+
+    svg.addEventListener("pointerdown", (e) => {
+      const g = e.target.closest("[data-pt]");
+      if (g) {
+        e.preventDefault();
+        st.drag = g.dataset.pt;
+        svg.setPointerCapture(e.pointerId);
+        cephRefresh(["overlay"]);
+        return;
+      }
+      st.downAt = [e.clientX, e.clientY];
+    });
+    svg.addEventListener("pointermove", (e) => {
+      if (!st.drag) return;
+      st.pts[st.drag] = toImg(e);
+      cephRefresh(["overlay", "results"]);
+    });
+    const endDrag = () => { if (st.drag) { st.drag = null; cephRefresh(); } };
+    svg.addEventListener("pointerup", (e) => {
+      if (st.drag) { endDrag(); return; }
+      if (!st.downAt || !st.current) return;
+      const moved = Math.hypot(e.clientX - st.downAt[0], e.clientY - st.downAt[1]);
+      st.downAt = null;
+      if (moved > 6) return; /* fue un desplazamiento de la página, no un toque */
+      const k = st.current;
+      st.pts[k] = toImg(e);
+      st.order = st.order.filter((x) => x !== k).concat(k);
+      st.current = cephNextPending(k);
+      cephRefresh();
+    });
+    svg.addEventListener("pointercancel", () => { st.downAt = null; endDrag(); });
+
+    svg.addEventListener("keydown", (e) => {
+      const g = e.target.closest("[data-pt]");
+      const step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+      if (!g || !step) return;
+      e.preventDefault();
+      const k = g.dataset.pt, m = e.shiftKey ? 5 : 1;
+      st.pts[k] = [st.pts[k][0] + step[0] * m, st.pts[k][1] + step[1] * m];
+      cephRefresh(["overlay", "results"]);
+      root.querySelector(`[data-pt="${k}"]`).focus();
+    });
+
+    root.addEventListener("click", (e) => {
+      const pick = e.target.closest("[data-ceph-pick]");
+      if (pick) { st.current = pick.dataset.cephPick; cephRefresh(["prompt"]); return; }
+      const act = e.target.closest("[data-ceph-action]");
+      if (!act) return;
+      const a = act.dataset.cephAction;
+      if (a === "undo") {
+        const last = st.order.pop();
+        if (last) { delete st.pts[last]; st.current = last; }
+      } else if (a === "clear") {
+        st.pts = {}; st.order = []; st.current = "S";
+      } else if (a === "example") {
+        st.pts = JSON.parse(JSON.stringify(CEPH_EXAMPLE));
+        st.order = CEPH_LANDMARKS.map(([k]) => k);
+        st.current = null;
+      }
+      cephRefresh();
+    });
+  }
+
+  function viewCefalometria(p) {
     return patientFrame(p, "cefalometria", `
-      <div class="ceph-layout">
+      <div class="ceph-layout" id="ceph">
         <div>
-          <div class="xray">${cephSVG()}<span class="stamp">Imagen de ejemplo · esquema</span><span class="lock">Vista previa, no editable</span></div>
-          <div class="pts-list" style="margin-top:10px">${Object.keys(CEPH_PTS).map((k) => `<span class="chip plain">${k}</span>`).join("")}</div>
+          <div class="ceph-tools">
+            <div id="ceph-prompt" class="ceph-prompt">${cephPromptHTML()}</div>
+            <div class="ceph-actions">
+              <button class="btn" data-ceph-action="undo">Deshacer</button>
+              <button class="btn" data-ceph-action="clear">Borrar todo</button>
+              <button class="btn" data-ceph-action="example">Cargar puntos de ejemplo</button>
+            </div>
+          </div>
+          <div class="xray">
+            <svg class="ceph-svg" viewBox="0 0 ${CEPH_IMAGE.w} ${CEPH_IMAGE.h}" role="application" aria-label="Radiografía lateral: toca para colocar puntos cefalométricos">
+              <image href="${CEPH_IMAGE.src}" x="0" y="0" width="${CEPH_IMAGE.w}" height="${CEPH_IMAGE.h}"/>
+              <g id="ceph-overlay">${cephOverlaySVG()}</g>
+            </svg>
+            <span class="stamp">Radiografía de referencia</span>
+            <span class="lock">No se guarda al recargar</span>
+            <div class="xray-foot">Puntos marcados por el profesional · apoyo al estudio, no es un diagnóstico</div>
+          </div>
         </div>
         <div class="results">
-          <div class="demo-note">${ICON.info}<span><b>Así se vería.</b> El profesional marca los puntos sobre la radiografía y el sistema calcula las medidas. Es un apoyo al estudio: <b>la interpretación y el diagnóstico son del profesional.</b></span></div>
-          ${CEPH.map((b) => `<section class="card card-pad res-block"><h3>${b.title}<small>valor · norma</small></h3>${b.rows.map(row).join("")}</section>`).join("")}
-          <p class="small muted">Valores y normas de ejemplo, no calculados sobre ningún paciente. Normas pendientes de validar con la odontóloga asesora. Registro: 08/10/2026 · ${DOCTOR}.</p>
+          <div class="demo-note ceph-warn">${ICON.info}<span><b>Apoyo al estudio.</b> El sistema solo calcula a partir de los puntos que marcas. <b>La interpretación y el diagnóstico son siempre del profesional.</b></span></div>
+          <div class="demo-note">${ICON.info}<span><b>Ángulos fiables, distancias orientativas.</b> La imagen no tiene regla de calibración: los mm se estiman suponiendo S–N ≈ ${CEPH_SN_MM} mm. Los cocientes (%) no dependen de la escala.</span></div>
+          <div id="ceph-results" class="results">${cephResultsHTML()}</div>
+          <p class="small muted">Normas orientativas, pendientes de validar con la odontóloga asesora. ${DOCTOR}.</p>
         </div>
       </div>`);
   }
@@ -687,6 +882,7 @@
       html = ({ fotos: viewFotos, odontograma: viewOdontograma, cefalometria: viewCefalometria, presupuesto: viewPresupuesto }[tab] || viewFicha)(p);
     } else html = viewLogin();
     $app.innerHTML = html;
+    cephMount();
     document.title = (parts[0] ? parts[0][0].toUpperCase() + parts[0].slice(1) + " · " : "") + "Ortodoncia · Demo visual";
   }
 
